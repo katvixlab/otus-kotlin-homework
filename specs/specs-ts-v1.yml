@@ -145,12 +145,7 @@ components:
           description: Поле-дескриминатор тип ответа
           example: create
         result:
-          type: string
-          enum:
-            - success
-            - error
-          description: Результат ответа
-          example: success
+          $ref: '#/components/schemas/RequestResult'
         errors:
           type: array
           items:
@@ -245,24 +240,19 @@ components:
         - $ref: '#/components/schemas/TrnResponseMulti'
 
     TrnResponseSingle:
-      allOf:
-        - $ref: '#/components/schemas/IResponse'
-        - type: object
-          description: Объект ответа на запрос списка тренировок
-          properties:
-            trn:
-              $ref: '#/components/schemas/TrnResponseObject'
+      type: object
+      description: Объект ответа на запрос списка тренировок
+      properties:
+        trn:
+          $ref: '#/components/schemas/TrnResponseObject'
 
     TrnResponseMulti:
-      allOf:
-        - $ref: '#/components/schemas/IResponse'
-        - type: object
-          description: Объект ответа на запрос списка тренировок
-          properties:
-            trns:
-              type: array
-              items:
-                $ref: '#/components/schemas/TrnResponseObject'
+      description: Объект ответа на запрос списка тренировок
+      properties:
+        trns:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrnResponseObject'
 
     TrnResponseObject:
       allOf:
@@ -367,6 +357,14 @@ components:
           type: string
         message:
           type: string
+
+    RequestResult:
+      type: string
+      enum:
+        - success
+        - error
+      description: Результат ответа
+      example: success
 
     TrnRequestDebug:
       type: object

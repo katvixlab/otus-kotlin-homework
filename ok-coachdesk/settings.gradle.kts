@@ -19,3 +19,6 @@ pluginManagement {
     }
 }
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
+include(":ok-coachdesk-api-v1-jackson")
