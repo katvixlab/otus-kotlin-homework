@@ -27,7 +27,7 @@ class UpdateOperationV1Test {
         assertContains(json, Regex("\"mode\":\\s*\"test\""))
         assertContains(json, Regex("\"stub\":\\s*\"success\""))
         assertContains(json, Regex("\"clientFullName\":\\s*\"client\""))
-        assertContains(json, Regex("\"id\":\\s*\"$trnIdFixture\""))
+        assertContains(json, Regex("\"trnId\":\\s*\"$trnIdFixture\""))
     }
 
     @Test
@@ -44,7 +44,7 @@ class UpdateOperationV1Test {
         assertContains(json, Regex("\"result\":\\s*\"success\""))
         assertContains(json, Regex("\"code\":\\s*\"duplicated-code\""))
         assertContains(json, Regex("\"clientFullName\":\\s*\"client\""))
-        assertContains(json, Regex("\"id\":\\s*\"$trnIdFixture\""))
+        assertContains(json, Regex("\"trnId\":\\s*\"$trnIdFixture\""))
     }
 
     @Test

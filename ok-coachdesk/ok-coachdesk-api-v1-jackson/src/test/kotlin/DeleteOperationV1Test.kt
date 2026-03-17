@@ -10,14 +10,14 @@ class DeleteOperationV1Test {
     private val request = TrnDeleteRequest(
         requestType = "delete",
         debug = trnDebugFixture,
-        id = trnIdFixture.toString()
+        trn = idTrnFixture
     )
 
     private val response = TrnDeleteResponse(
         responseType = "delete",
         errors = listOf(errorFixture),
         result = RequestResult.SUCCESS,
-        id = trnIdFixture.toString()
+        trnId = trnIdFixture
     )
 
     @Test
@@ -26,7 +26,7 @@ class DeleteOperationV1Test {
         assertContains(json, Regex("\"requestType\":\\s*\"delete\""))
         assertContains(json, Regex("\"mode\":\\s*\"test\""))
         assertContains(json, Regex("\"stub\":\\s*\"success\""))
-        assertContains(json, Regex("\"id\":\\s*\"$trnIdFixture\""))
+        assertContains(json, Regex("\"trnId\":\\s*\"$trnIdFixture\""))
     }
 
     @Test
@@ -42,7 +42,7 @@ class DeleteOperationV1Test {
         assertContains(json, Regex("\"responseType\":\\s*\"delete\""))
         assertContains(json, Regex("\"result\":\\s*\"success\""))
         assertContains(json, Regex("\"code\":\\s*\"duplicated-code\""))
-        assertContains(json, Regex("\"id\":\\s*\"$trnIdFixture\""))
+        assertContains(json, Regex("\"trnId\":\\s*\"$trnIdFixture\""))
     }
 
     @Test

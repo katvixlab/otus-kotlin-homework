@@ -166,7 +166,7 @@ components:
         - type: object
           properties:
             trn:
-              $ref: '#/components/schemas/BaseTrn'
+              $ref: '#/components/schemas/TrnRequestObject'
     
     TrnCreateResponse:
       allOf:
@@ -179,9 +179,8 @@ components:
         - $ref: '#/components/schemas/TrnRequestDebug'
         - type: object
           properties:
-            id:
-              type: string
-              description: Идентификатор тренировки
+            trn:
+              $ref: '#/components/schemas/IdTrn'
 
     TrnReadResponse:
       allOf:
@@ -212,17 +211,17 @@ components:
         - $ref: '#/components/schemas/TrnRequestDebug'
         - type: object
           properties:
-            id:
-              type: string
-              description: Идентификатор тренировки
+            trn:
+              $ref: '#/components/schemas/IdTrn'
 
     TrnDeleteResponse:
       allOf:
         - $ref: '#/components/schemas/IResponse'
         - type: object
           properties:
-            id:
+            trnId:
               type: string
+              format: uuid
               description: Идентификатор тренировки
 
     TrnSearchRequest:
@@ -232,7 +231,12 @@ components:
         - type: object
           properties:
             trnFilter:
-              $ref: '#/components/schemas/trnSearchFilter'
+              $ref: '#/components/schemas/TrnFilter'
+
+    TrnFilter:
+      allOf:
+        - $ref: '#/components/schemas/IdTrn'
+        - $ref: '#/components/schemas/TrnSearchFilter'
 
     TrnSearchResponse:
       allOf:
@@ -259,19 +263,14 @@ components:
         - type: object
           description: Объект ответа на запрос тренировки
           properties:
-            id:
+            trnId:
               type: string
               format: uuid
         - $ref: '#/components/schemas/BaseTrn'
 
     TrnRequestObject:
       allOf:
-        - type: object
-          description: Объект запроса изменения тренировки
-          properties:
-            id:
-              type: string
-              format: uuid
+        - $ref: '#/components/schemas/IdTrn'
         - $ref: '#/components/schemas/BaseTrn'
 
     BaseTrn:
@@ -302,6 +301,19 @@ components:
         paymentStatus:
           $ref: '#/components/schemas/TrnPaymentStatus'
 
+    IdTrn:
+      type: object
+      description: Объект описывающий идентификатор тренировки
+      properties:
+        trnId:
+          type: string
+          format: uuid
+          description: Идентификатор тренировки
+        coachId:
+          type: string
+          format: uuid
+          description: Идентификатор тренера
+
     TrnType:
       type: string
       description: Тип тренировки
@@ -309,7 +321,7 @@ components:
         - cardio
         - strength
         - personal
-        - cross-fit
+        - crossFit
         - functional
         - other
 
@@ -328,7 +340,7 @@ components:
         - unpaid
         - paid
 
-    trnSearchFilter:
+    TrnSearchFilter:
       type: object
       description: Набор фильтров для поиска
       properties:
@@ -394,9 +406,7 @@ components:
       enum:
         - success
         - notFound
-        - badId
-        - badTitle
-        - badDescription
-        - badVisibility
+        - mismatchId
         - cannotDelete
-        - badSearchString
+        - mismatchSearchString
+        - dbError

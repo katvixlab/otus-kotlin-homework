@@ -11,7 +11,7 @@ class CreateOperationV1Test {
     private val request = TrnCreateRequest(
         requestType = "create",
         debug = trnDebugFixture,
-        trn = baseTrnFixture
+        trn = trnRequestObjectFixture
     )
 
     private val response = TrnCreateResponse(
@@ -48,7 +48,7 @@ class CreateOperationV1Test {
         assertContains(json, Regex("\"clientFullName\":\\s*\"client\""))
         assertContains(json, Regex("\"durationMin\":\\s*\"90\""))
         assertContains(json, Regex("\"planNotes\":\\s*\"plan\""))
-        assertContains(json, Regex("\"id\":\\s*\"$trnIdFixture\""))
+        assertContains(json, Regex("\"trnId\":\\s*\"$trnIdFixture\""))
     }
 
     @Test

@@ -1,6 +1,8 @@
 import ru.otus.kotlin.coachdesk.api.v1.models.BaseTrn
 import ru.otus.kotlin.coachdesk.api.v1.models.Error
+import ru.otus.kotlin.coachdesk.api.v1.models.IdTrn
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnDebug
+import ru.otus.kotlin.coachdesk.api.v1.models.TrnFilter
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnPaymentStatus
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnRequestObject
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnRequestDebugMode
@@ -13,6 +15,12 @@ import java.time.Instant
 import java.util.UUID
 
 val trnIdFixture: UUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000")
+val coachIdFixture: UUID = UUID.fromString("123e4567-e89b-12d3-a456-425515174000")
+
+val idTrnFixture = IdTrn(
+    trnId = trnIdFixture,
+    coachId = coachIdFixture
+)
 
 val baseTrnFixture = BaseTrn(
     clientFullName = "client",
@@ -39,11 +47,12 @@ val trnRequestObjectFixture = TrnRequestObject(
     status = TrnStatus.DONE,
     resultNotes = "result",
     paymentStatus = TrnPaymentStatus.PAID,
-    id = trnIdFixture
+    trnId = trnIdFixture,
+    coachId = coachIdFixture
 )
 
 val trnResponseObjectFixtures = TrnResponseObject(
-    id = trnIdFixture,
+    trnId = trnIdFixture,
     clientFullName = "client",
     startsAt = Instant.parse("2026-03-30T18:00:00Z").toString(),
     durationMin = "90",
@@ -54,7 +63,7 @@ val trnResponseObjectFixtures = TrnResponseObject(
     paymentStatus = TrnPaymentStatus.PAID
 )
 
-val trnSearchFilterFixture = TrnSearchFilter(
+val trnSearchFilterFixture = TrnFilter(
     clientFullName = "client",
     startsAt = Instant.parse("2026-03-30T18:00:00Z").toString(),
     type = TrnType.PERSONAL,

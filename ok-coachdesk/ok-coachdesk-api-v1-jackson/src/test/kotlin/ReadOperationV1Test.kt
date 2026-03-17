@@ -10,7 +10,7 @@ class ReadOperationV1Test {
     private val request = TrnReadRequest(
         requestType = "read",
         debug = trnDebugFixture,
-        id = trnIdFixture.toString()
+        trn = idTrnFixture
     )
 
     private val response = TrnReadResponse(
@@ -26,7 +26,7 @@ class ReadOperationV1Test {
         assertContains(json, Regex("\"requestType\":\\s*\"read\""))
         assertContains(json, Regex("\"mode\":\\s*\"test\""))
         assertContains(json, Regex("\"stub\":\\s*\"success\""))
-        assertContains(json, Regex("\"id\":\\s*\"$trnIdFixture\""))
+        assertContains(json, Regex("\"trnId\":\\s*\"$trnIdFixture\""))
     }
 
     @Test
@@ -43,7 +43,7 @@ class ReadOperationV1Test {
         assertContains(json, Regex("\"result\":\\s*\"success\""))
         assertContains(json, Regex("\"code\":\\s*\"duplicated-code\""))
         assertContains(json, Regex("\"clientFullName\":\\s*\"client\""))
-        assertContains(json, Regex("\"id\":\\s*\"$trnIdFixture\""))
+        assertContains(json, Regex("\"trnId\":\\s*\"$trnIdFixture\""))
     }
 
     @Test
