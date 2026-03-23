@@ -86,16 +86,9 @@
 - `fullName` (опционально, из claims)
 - `username/email` (опционально, из claims)
 
-### Client
-- `id`
-- `trainerId` — владелец (из JWT)
-- `fullName`
-- `gymName?`
-- `notes?`
-
 ### TrainingSession
 - `id`
-- `clientId`
+- `clientFullName`
 - `startsAt` (дата+время)
 - `durationMin?`
 - `type` (строка/enum)
@@ -105,6 +98,7 @@
 - `price?`
 - `paymentStatus`: `UNPAID | PAID`
 - `paidAt?`
+- `gymName?`
 
 ---
 

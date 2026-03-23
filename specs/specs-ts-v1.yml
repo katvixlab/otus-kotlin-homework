@@ -1,0 +1,412 @@
+openapi: 3.0.3
+info:
+  title: "Coach Desk ${VERSION_APP}"
+  description: This is a place where coach can manage their clients and training sessions
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/v1
+tags:
+  - name: trn
+    description: Тренировочные сессии
+paths:
+  /trn/create:
+    post:
+      tags:
+        - trn
+      summary: Create training session
+      operationId: trnCreate
+      requestBody:
+        description: Request body for creating a training session
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrnCreateRequest'
+        required: true
+      responses:
+        200:
+          description: Created training session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrnCreateResponse'
+  /trn/read:
+    post:
+      tags:
+        - trn
+      summary: Read training session
+      operationId: trnRead
+      requestBody:
+        description: Request body for read the training session
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrnReadRequest'
+        required: true
+      responses:
+        200:
+          description: Read training session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrnReadResponse'
+
+  /trn/update:
+    post:
+      tags:
+        - trn
+      summary: Update training session
+      operationId: trnUpdate
+      requestBody:
+        description: Request body for update the training session
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrnUpdateRequest'
+        required: true
+      responses:
+        200:
+          description: Update training session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrnUpdateResponse'
+
+  /trn/delete:
+    post:
+      tags:
+        - trn
+      summary: Delete training session
+      operationId: trnDelete
+      requestBody:
+        description: Request body for delete training session
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrnDeleteRequest'
+        required: true
+      responses:
+        200:
+          description: Delete training session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrnDeleteResponse'
+
+  /trn/search:
+    post:
+      tags:
+        - trn
+      summary: Search training sessions
+      operationId: trnSearch
+      requestBody:
+        description: Request body for search training sessions
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrnSearchRequest'
+        required: true
+      responses:
+        200:
+          description: Search training sessions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrnSearchResponse'
+
+components:
+  schemas:
+
+    IRequest:
+      type: object
+      description: Базовый интерфейс для запросов
+      properties:
+        requestType:
+          type: string
+          description: Поле-дескриминатор типа запроса
+          example: create
+      discriminator:
+        propertyName: requestType
+        mapping:
+          create: '#/components/schemas/TrnCreateRequest'
+          read: '#/components/schemas/TrnReadRequest'
+          update: '#/components/schemas/TrnUpdateRequest'
+          delete: '#/components/schemas/TrnDeleteRequest'
+          search: '#/components/schemas/TrnSearchRequest'
+
+    IResponse:
+      type: object
+      description: Базовый интерфейс для ответов
+      properties:
+        responseType:
+          type: string
+          description: Поле-дескриминатор тип ответа
+          example: create
+        result:
+          $ref: '#/components/schemas/RequestResult'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      discriminator:
+        propertyName: responseType
+        mapping:
+          create: '#/components/schemas/TrnCreateResponse'
+          read: '#/components/schemas/TrnReadResponse'
+          update: '#/components/schemas/TrnUpdateResponse'
+          delete: '#/components/schemas/TrnDeleteResponse'
+          search: '#/components/schemas/TrnSearchResponse'
+
+    TrnCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/TrnRequestDebug'
+        - type: object
+          properties:
+            trn:
+              $ref: '#/components/schemas/TrnRequestObject'
+    
+    TrnCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/TrnResponseSingle'
+
+    TrnReadRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/TrnRequestDebug'
+        - type: object
+          properties:
+            trn:
+              $ref: '#/components/schemas/IdTrn'
+
+    TrnReadResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/TrnResponseSingle'
+
+    TrnUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/TrnRequestDebug'
+        - type: object
+          properties:
+            trn:
+              $ref: '#/components/schemas/TrnRequestObject'
+
+    TrnUpdateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - type: object
+          description: Объект ответа на запрос обновления тренировки
+          properties:
+            trn:
+              $ref: '#/components/schemas/TrnResponseObject'
+
+    TrnDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/TrnRequestDebug'
+        - type: object
+          properties:
+            trn:
+              $ref: '#/components/schemas/IdTrn'
+
+    TrnDeleteResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - type: object
+          properties:
+            trnId:
+              type: string
+              format: uuid
+              description: Идентификатор тренировки
+
+    TrnSearchRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/TrnRequestDebug'
+        - type: object
+          properties:
+            trnFilter:
+              $ref: '#/components/schemas/TrnFilter'
+
+    TrnFilter:
+      allOf:
+        - $ref: '#/components/schemas/IdTrn'
+        - $ref: '#/components/schemas/TrnSearchFilter'
+
+    TrnSearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/TrnResponseMulti'
+
+    TrnResponseSingle:
+      type: object
+      description: Объект ответа на запрос списка тренировок
+      properties:
+        trn:
+          $ref: '#/components/schemas/TrnResponseObject'
+
+    TrnResponseMulti:
+      description: Объект ответа на запрос списка тренировок
+      properties:
+        trns:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrnResponseObject'
+
+    TrnResponseObject:
+      allOf:
+        - type: object
+          description: Объект ответа на запрос тренировки
+          properties:
+            trnId:
+              type: string
+              format: uuid
+        - $ref: '#/components/schemas/BaseTrn'
+
+    TrnRequestObject:
+      allOf:
+        - $ref: '#/components/schemas/IdTrn'
+        - $ref: '#/components/schemas/BaseTrn'
+
+    BaseTrn:
+      type: object
+      description: Объект описывающий тренировку
+      properties:
+        clientFullName:
+          type: string
+          description: ФИО Клиента
+        startsAt:
+          type: string
+          format: date-time
+          description: Дата и время начала тренировки
+        durationMin:
+          type: string
+          pattern: '^\d{2-3}$'
+          description: Продолжительность тренировки в минутах
+        type:
+          $ref: '#/components/schemas/TrnType'
+        planNotes:
+          type: string
+          description: Плана тренировки (в виде заметки)
+        resultNotes:
+          type: string
+          description: Результат тренировки (в виде заметки)
+        status:
+          $ref: '#/components/schemas/TrnStatus'
+        paymentStatus:
+          $ref: '#/components/schemas/TrnPaymentStatus'
+
+    IdTrn:
+      type: object
+      description: Объект описывающий идентификатор тренировки
+      properties:
+        trnId:
+          type: string
+          format: uuid
+          description: Идентификатор тренировки
+        coachId:
+          type: string
+          format: uuid
+          description: Идентификатор тренера
+
+    TrnType:
+      type: string
+      description: Тип тренировки
+      enum:
+        - cardio
+        - strength
+        - personal
+        - crossFit
+        - functional
+        - other
+
+    TrnStatus:
+      type: string
+      description: Статус тренировки
+      enum:
+        - planned
+        - done
+        - canceled
+
+    TrnPaymentStatus:
+      type: string
+      description: Статус оплаты тренировки
+      enum:
+        - unpaid
+        - paid
+
+    TrnSearchFilter:
+      type: object
+      description: Набор фильтров для поиска
+      properties:
+        clientFullName:
+          type: string
+          description: ФИО Клиента
+        startsAt:
+          type: string
+          format: date
+          description: Дата начала тренировки
+        type:
+          $ref: '#/components/schemas/TrnType'
+        status:
+          $ref: '#/components/schemas/TrnStatus'
+        paymentStatus:
+          $ref: '#/components/schemas/TrnPaymentStatus'
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        group:
+          type: string
+        field:
+          type: string
+        message:
+          type: string
+
+    RequestResult:
+      type: string
+      enum:
+        - success
+        - error
+      description: Результат ответа
+      example: success
+
+    TrnRequestDebug:
+      type: object
+      properties:
+        debug:
+          $ref: '#/components/schemas/TrnDebug'
+
+    TrnDebug:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/TrnRequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/TrnRequestDebugStubs'
+
+    # STUBS ======================
+    TrnRequestDebugMode:
+      type: string
+      enum:
+        - prod
+        - test
+        - stub
+
+    TrnRequestDebugStubs:
+      type: string
+      description: Перечисления всех стабов
+      enum:
+        - success
+        - notFound
+        - mismatchId
+        - cannotDelete
+        - mismatchSearchString
+        - dbError

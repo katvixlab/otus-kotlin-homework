@@ -16,3 +16,8 @@ subprojects {
     version = rootProject.version
 }
 
+ext {
+    val specDir = layout.projectDirectory.dir("../specs")
+    set("spec-v1", specDir.file("specs-ts-v1.yml").toString())
+}
+
