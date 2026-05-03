@@ -1,0 +1,6 @@
+ktor:
+  application:
+    modules:
+      - ok.coachdesk.app.ApplicationKt.module
+  deployment:
+    port: 8080

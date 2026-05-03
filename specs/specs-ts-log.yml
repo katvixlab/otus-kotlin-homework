@@ -1,0 +1,96 @@
+openapi: 3.0.3
+info:
+  title: Coachdesk log models
+  description: Log models for logging Coachdesk service
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+paths: {}
+
+components:
+  schemas:
+    CommonLogModel:
+      title: Общая модель лога
+      description: Общая модель лога для всех микросервисов системы
+      type: object
+      properties:
+        messageTime:
+          type: string
+        logId:
+          type: string
+        source:
+          type: string
+        ts:
+          $ref: '#/components/schemas/DskTrnLogModel'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorLogModel'
+
+    DskTrnLogModel:
+      type: object
+      properties:
+        requestId:
+          type: string
+        operation:
+          $ref: '#/components/schemas/TrnLogOperation'
+        requestTrn:
+          $ref: '#/components/schemas/TrnLog'
+        requestFilter:
+          $ref: '#/components/schemas/TrnSearchFilterLog'
+        responseTrn:
+          $ref: '#/components/schemas/TrnLog'
+        responseTrns:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrnLog'
+
+    TrnLogOperation:
+      type: string
+      enum:
+        - create
+        - read
+        - update
+        - delete
+        - search
+        - none
+
+    ErrorLogModel:
+      title: Модель лога для ошибки
+      type: object
+      properties:
+        message:
+          type: string
+        field:
+          type: string
+        code:
+          type: string
+
+    TrnLog:
+      title: Модель лога для тренировки
+      type: object
+      properties:
+        trnId:
+          type: string
+          format: uuid
+        coachId:
+          type: string
+          format: uuid
+        trnType:
+          type: string
+
+    TrnSearchFilterLog:
+      type: object
+      description: Модель лога для фильтра поиска
+      properties:
+        clientFullName:
+          type: string
+        startsAt:
+          type: string
+        type:
+          type: string
+        status:
+          type: string
+        paymentStatus:
+          type: string
