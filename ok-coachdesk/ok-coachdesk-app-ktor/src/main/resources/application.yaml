@@ -1,6 +1,10 @@
 ktor:
-  application:
-    modules:
-      - ok.coachdesk.app.ApplicationKt.module
+  development: true
   deployment:
     port: 8080
+  watch:
+    - classes
+    - resources
+  application:
+    modules:
+      - ok.coachdesk.app.ApplicationKt.moduleApp
