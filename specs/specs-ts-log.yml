@@ -55,6 +55,8 @@ components:
         - delete
         - search
         - none
+        - init
+        - finish
 
     ErrorLogModel:
       title: Модель лога для ошибки

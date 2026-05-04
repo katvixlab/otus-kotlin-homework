@@ -1,6 +1,7 @@
 import kotlinx.datetime.Instant
 import models.*
 import stubs.DskStubs
+import ws.IDskWsSession
 
 data class DskContext(
     var command: DskCommand = DskCommand.NONE,
@@ -9,6 +10,7 @@ data class DskContext(
 
     var workMode: DskWorkMode = DskWorkMode.PROD,
     var stubCase: DskStubs = DskStubs.NONE,
+    var wsSession: IDskWsSession = IDskWsSession.NONE,
 
     var requestId: DskRequestId = DskRequestId.NONE,
     var timeStart: Instant = Instant.NONE,

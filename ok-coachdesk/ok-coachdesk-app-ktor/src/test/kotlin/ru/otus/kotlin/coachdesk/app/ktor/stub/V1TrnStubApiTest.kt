@@ -29,7 +29,7 @@ import kotlin.test.assertEquals
 class V1TrnStubApiTest {
 
     @Test
-    fun create() = v1TestApplication(
+    fun create() = v1RestTestApplication(
         path = "create",
         request = TrnCreateRequest(
             requestType = "create",
@@ -41,7 +41,7 @@ class V1TrnStubApiTest {
     }
 
     @Test
-    fun read() = v1TestApplication(
+    fun read() = v1RestTestApplication(
         path = "read",
         request = TrnReadRequest(
             requestType = "read",
@@ -53,7 +53,7 @@ class V1TrnStubApiTest {
     }
 
     @Test
-    fun update() = v1TestApplication(
+    fun update() = v1RestTestApplication(
         path = "update",
         request = TrnUpdateRequest(
             requestType = "update",
@@ -65,7 +65,7 @@ class V1TrnStubApiTest {
     }
 
     @Test
-    fun delete() = v1TestApplication(
+    fun delete() = v1RestTestApplication(
         path = "delete",
         request = TrnDeleteRequest(
             requestType = "delete",
@@ -77,7 +77,7 @@ class V1TrnStubApiTest {
     }
 
     @Test
-    fun search() = v1TestApplication(
+    fun search() = v1RestTestApplication(
         path = "search",
         request = TrnSearchRequest(
             requestType = "search",
@@ -90,7 +90,7 @@ class V1TrnStubApiTest {
     }
 
 
-    private fun v1TestApplication(
+    private fun v1RestTestApplication(
         path: String,
         request: IRequest,
         function: suspend (HttpResponse) -> Unit,

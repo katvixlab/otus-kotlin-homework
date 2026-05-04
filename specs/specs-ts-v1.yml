@@ -158,6 +158,7 @@ components:
           update: '#/components/schemas/TrnUpdateResponse'
           delete: '#/components/schemas/TrnDeleteResponse'
           search: '#/components/schemas/TrnSearchResponse'
+          init: '#/components/schemas/TrnInitResponse'
 
     TrnCreateRequest:
       allOf:
@@ -242,6 +243,10 @@ components:
       allOf:
         - $ref: '#/components/schemas/IResponse'
         - $ref: '#/components/schemas/TrnResponseMulti'
+
+    TrnInitResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
 
     TrnResponseSingle:
       type: object

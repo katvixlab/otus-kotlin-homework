@@ -33,6 +33,8 @@ private fun DskCommand.toLogOperation(): TrnLogOperation = when (this) {
     DskCommand.UPDATE -> TrnLogOperation.UPDATE
     DskCommand.SEARCH -> TrnLogOperation.SEARCH
     DskCommand.NONE -> TrnLogOperation.NONE
+    DskCommand.INIT -> TrnLogOperation.INIT
+    DskCommand.FINISH -> TrnLogOperation.FINISH
 }
 
 private fun DskTrn.toLog(): TrnLog = TrnLog(

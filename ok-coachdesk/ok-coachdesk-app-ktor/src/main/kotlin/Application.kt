@@ -1,21 +1,23 @@
 package ok.coachdesk.app
 
 import apiV1Mapper
-import io.ktor.http.HttpHeaders
-import io.ktor.http.HttpMethod
+import io.ktor.http.*
 import io.ktor.serialization.jackson.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.autohead.*
 import io.ktor.server.plugins.cachingheaders.*
 import io.ktor.server.plugins.calllogging.*
 import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.plugins.cors.routing.CORS
+import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.defaultheaders.*
-import io.ktor.server.plugins.swagger.swaggerUI
+import io.ktor.server.plugins.swagger.*
 import io.ktor.server.routing.*
+import io.ktor.server.websocket.*
 import ok.coachdesk.app.plugins.initAppSettings
 import ok.coachdesk.app.v1.v1Trn
+import ok.coachdesk.app.v1.ws.wsHandlerV1
 import org.slf4j.event.Level
+import kotlin.time.Duration.Companion.seconds
 
 fun main(args: Array<String>) {
     io.ktor.server.netty.EngineMain.main(args)
@@ -39,6 +41,7 @@ fun Application.moduleApp(
     install(CallLogging) {
         level = Level.INFO
     }
+    install(WebSockets)
     routing {
         route("v1") {
             swaggerUI(path = "swagger", swaggerFile = "specs/specs-ts-v1.yml")
@@ -49,6 +52,7 @@ fun Application.moduleApp(
                 }
             }
             v1Trn(appSettings)
+            webSocket("/ws") { wsHandlerV1(appSettings) }
         }
     }
 }

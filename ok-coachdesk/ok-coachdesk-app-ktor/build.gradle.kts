@@ -24,6 +24,7 @@ dependencies {
     implementation(libs.ktor.server.yaml)
     implementation(libs.ktor.server.swagger)
     implementation(libs.ktor.server.cors)
+    implementation(libs.ktor.server.websocket)
     implementation(libs.logback)
 
     implementation(project(":ok-coachdesk-app-common"))
