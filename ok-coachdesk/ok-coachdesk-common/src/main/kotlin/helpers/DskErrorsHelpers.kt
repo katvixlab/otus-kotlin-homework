@@ -1,6 +1,8 @@
 package helpers
 
+import DskContext
 import models.DskError
+import models.DskState
 
 fun Throwable.asDskError(
     code: String = "unknown",
@@ -12,3 +14,10 @@ fun Throwable.asDskError(
     message = message,
     exception = this,
 )
+
+fun DskContext.addErrors(vararg error: DskError) = errors.addAll(error)
+
+fun DskContext.fail(error: DskError) {
+    addErrors(error)
+    state = DskState.FAILED
+}
