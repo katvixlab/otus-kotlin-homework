@@ -3,6 +3,6 @@ plugins{
 }
 
 dependencies {
-    implementation(project(":ok-coachdesk-common"))
+    implementation(projects.okCoachdeskCommon)
     implementation(projects.okCoachdeskStub)
 }

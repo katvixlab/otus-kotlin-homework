@@ -34,10 +34,11 @@ openApiGenerate {
 }
 
 dependencies {
-    implementation(project(":ok-coachdesk-common"))
+    implementation(projects.okCoachdeskCommon)
     implementation(kotlin("stdlib"))
     implementation(libs.jackson.kotlin)
     implementation(libs.jackson.datatype)
+
     testImplementation(kotlin("test-junit"))
 }
 
