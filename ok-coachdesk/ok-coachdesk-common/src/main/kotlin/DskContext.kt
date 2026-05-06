@@ -8,7 +8,7 @@ data class DskContext(
     var state: DskState = DskState.NONE,
     val errors: MutableList<DskError> = mutableListOf(),
 
-    val corSettings: DskCorSettings = DskCorSettings(),
+    var corSettings: DskCorSettings = DskCorSettings(),
     var workMode: DskWorkMode = DskWorkMode.PROD,
     var stubCase: DskStubs = DskStubs.NONE,
     var wsSession: IDskWsSession = IDskWsSession.NONE,

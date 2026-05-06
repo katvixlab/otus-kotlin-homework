@@ -411,7 +411,11 @@ components:
       enum:
         - success
         - notFound
-        - mismatchId
+        - badId
+        - badField
+        - badCoachId
+        - badClientId
+        - badStartsAt
         - cannotDelete
         - mismatchSearchString
         - dbError

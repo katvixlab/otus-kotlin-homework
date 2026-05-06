@@ -6,6 +6,8 @@ import java.util.UUID
 object DskStub {
     fun get(): DskTrn = AD_TRN.copy()
 
+    fun prepareResult(block: DskTrn.() -> Unit): DskTrn = get().apply(block)
+
     fun prepareListDskTrn(filter: String) = listOf(
         AD_TRN.copy(trnId = DskTrnId(UUID.fromString("12345678-1111-1234-0000-0000000001")), planNotes = filter),
         AD_TRN.copy(trnId = DskTrnId(UUID.fromString("12345678-1111-1234-0000-0000000002")), planNotes = filter),
