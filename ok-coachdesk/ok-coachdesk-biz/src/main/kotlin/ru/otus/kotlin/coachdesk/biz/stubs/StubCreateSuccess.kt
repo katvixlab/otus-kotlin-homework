@@ -28,16 +28,16 @@ fun ICorChainDsl<DskContext>.stubCreateSuccess(title: String, corSettings: DskCo
         logger.doWithLogging(id = this.requestId.asString(), LogLevel.DEBUG) {
             state = DskState.FINISHED
             val stub = DskStub.prepareResult {
-                dskRequest.clientFullName.takeIf { it.isNotBlank() }?.also { this.clientFullName = it }
-                dskRequest.coachId.takeIf { it != DskCoachId.NONE }?.also { this.coachId = it }
-                dskRequest.clientId.takeIf { it != DskClientId.NONE }?.also { this.clientId = it }
-                dskRequest.startsAt.takeIf { it != Instant.NONE }?.also { this.startsAt = it }
-                dskRequest.paymentStatus.takeIf { it != DskTrnPaymentStatus.NONE }?.also { this.paymentStatus = it }
-                dskRequest.durationMin.takeIf { it != Duration.ZERO }?.also { this.durationMin = it }
-                dskRequest.type.takeIf { it != DskTrnType.NONE }?.also { this.type = it }
-                dskRequest.planNotes.takeIf { it.isNotBlank() }?.also { this.planNotes = it }
-                dskRequest.resultNotes.takeIf { it.isNotBlank() }?.also { this.resultNotes = it }
-                dskRequest.status.takeIf { it != DskTrnStatus.NONE }?.also { this.status = it }
+                trnRequest.clientFullName.takeIf { it.isNotBlank() }?.also { this.clientFullName = it }
+                trnRequest.coachId.takeIf { it != DskCoachId.NONE }?.also { this.coachId = it }
+                trnRequest.clientId.takeIf { it != DskClientId.NONE }?.also { this.clientId = it }
+                trnRequest.startsAt.takeIf { it != Instant.NONE }?.also { this.startsAt = it }
+                trnRequest.paymentStatus.takeIf { it != DskTrnPaymentStatus.NONE }?.also { this.paymentStatus = it }
+                trnRequest.durationMin.takeIf { it != Duration.ZERO }?.also { this.durationMin = it }
+                trnRequest.type.takeIf { it != DskTrnType.NONE }?.also { this.type = it }
+                trnRequest.planNotes.takeIf { it.isNotBlank() }?.also { this.planNotes = it }
+                trnRequest.resultNotes.takeIf { it.isNotBlank() }?.also { this.resultNotes = it }
+                trnRequest.status.takeIf { it != DskTrnStatus.NONE }?.also { this.status = it }
             }
             dskResponse = stub
         }

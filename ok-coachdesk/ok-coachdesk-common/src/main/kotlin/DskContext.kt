@@ -15,8 +15,14 @@ data class DskContext(
 
     var requestId: DskRequestId = DskRequestId.NONE,
     var timeStart: Instant = Instant.NONE,
-    var dskRequest: DskTrn = DskTrn(),
-    var dskTrnFilter: DskTrnFilter = DskTrnFilter(),
+    var trnRequest: DskTrn = DskTrn(),
+    var trnFilterRequest: DskTrnFilter = DskTrnFilter(),
+
+    var trnValidating: DskTrn = DskTrn(),
+    var trnFilterValidating: DskTrnFilter = DskTrnFilter(),
+
+    var trnValidated: DskTrn = DskTrn(),
+    var trnFilterValidated: DskTrnFilter = DskTrnFilter(),
 
     var dskResponse: DskTrn = DskTrn(),
     var dsksResponse: MutableList<DskTrn> = mutableListOf(),

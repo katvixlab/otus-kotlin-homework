@@ -20,7 +20,7 @@ fun DskContext.from(request: TrnCreateRequest) {
     command = DskCommand.CREATE
     workMode = request.debug.toContextWorkMode()
     stubCase = request.debug.toContextStubCase()
-    dskRequest = request.trn?.toInternal() ?: DskTrn()
+    trnRequest = request.trn?.toInternal() ?: DskTrn()
 
 }
 
@@ -28,14 +28,14 @@ fun DskContext.from(request: TrnDeleteRequest) {
     command = DskCommand.DELETE
     workMode = request.debug.toContextWorkMode()
     stubCase = request.debug.toContextStubCase()
-    dskRequest = request.trn?.toInternal() ?: DskTrn()
+    trnRequest = request.trn?.toInternal() ?: DskTrn()
 }
 
 fun DskContext.from(request: TrnReadRequest) {
     command = DskCommand.READ
     workMode = request.debug.toContextWorkMode()
     stubCase = request.debug.toContextStubCase()
-    dskRequest = request.trn?.toInternal() ?: DskTrn()
+    trnRequest = request.trn?.toInternal() ?: DskTrn()
 }
 
 fun DskContext.from(request: TrnSearchRequest) {
@@ -46,7 +46,7 @@ fun DskContext.from(request: TrnUpdateRequest) {
     command = DskCommand.UPDATE
     workMode = request.debug.toContextWorkMode()
     stubCase = request.debug.toContextStubCase()
-    dskRequest = request.trn?.toInternal() ?: DskTrn()
+    trnRequest = request.trn?.toInternal() ?: DskTrn()
 }
 
 private fun TrnDebug?.toContextWorkMode() = when (this?.mode) {

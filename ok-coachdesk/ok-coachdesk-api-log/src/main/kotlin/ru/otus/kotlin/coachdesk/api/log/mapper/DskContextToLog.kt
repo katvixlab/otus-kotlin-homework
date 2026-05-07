@@ -20,8 +20,8 @@ fun DskContext.toLog(logId: String) = CommonLogModel(
 private fun DskContext.toDskLogModel(): DskTrnLogModel = DskTrnLogModel(
     requestId = requestId.takeIf { it != DskRequestId.NONE }?.asString(),
     operation = command.toLogOperation(),
-    requestTrn = dskRequest.takeIf { it != DskTrn() }?.toLog(),
-    requestFilter = dskTrnFilter.takeIf { it != DskTrnFilter() }?.toLog(),
+    requestTrn = trnRequest.takeIf { it != DskTrn() }?.toLog(),
+    requestFilter = trnFilterRequest.takeIf { it != DskTrnFilter() }?.toLog(),
     responseTrn = dskResponse.takeIf { it != DskTrn() }?.toLog(),
     responseTrns = dsksResponse.takeIf { it.isNotEmpty() }?.map { it.toLog() }
 )

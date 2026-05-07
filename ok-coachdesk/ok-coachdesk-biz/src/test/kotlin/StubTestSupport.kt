@@ -56,8 +56,22 @@ fun stubContext(
     state = DskState.NONE,
     workMode = DskWorkMode.STUB,
     stubCase = stubCase,
-    dskRequest = request,
-    dskTrnFilter = filter,
+    trnRequest = request,
+    trnFilterRequest = filter,
+)
+
+fun validationContext(
+    command: DskCommand,
+    request: DskTrn = StubTestData.request,
+    filter: DskTrnFilter = StubTestData.filter,
+    timeStart: Instant = Instant.parse("2026-01-01T00:00:00Z"),
+) = DskContext(
+    command = command,
+    state = DskState.NONE,
+    workMode = DskWorkMode.TEST,
+    trnRequest = request,
+    trnFilterRequest = filter,
+    timeStart = timeStart,
 )
 
 fun assertStubError(
@@ -75,5 +89,21 @@ fun assertStubError(
 
 fun assertSuccess(ctx: DskContext) {
     assertEquals(DskState.FINISHED, ctx.state)
+    assertTrue(ctx.errors.isEmpty())
+}
+
+fun assertValidationError(
+    ctx: DskContext,
+    field: String,
+    violationCode: String,
+) {
+    assertEquals(DskState.FAILED, ctx.state)
+    assertEquals("validation", ctx.errors.firstOrNull()?.group)
+    assertEquals(field, ctx.errors.firstOrNull()?.field)
+    assertEquals("validation-$field-$violationCode", ctx.errors.firstOrNull()?.code)
+}
+
+fun assertValidationSuccess(ctx: DskContext) {
+    assertEquals(DskState.PROCESSING, ctx.state)
     assertTrue(ctx.errors.isEmpty())
 }

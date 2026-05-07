@@ -28,17 +28,17 @@ internal fun ICorChainDsl<DskContext>.stubSuccessResponse(title: String, corSett
         logger.doWithLogging(id = requestId.asString(), LogLevel.DEBUG) {
             state = DskState.FINISHED
             dskResponse = DskStub.prepareResult {
-                dskRequest.trnId.takeIf { it.get() != DskTrnId.NONE.get() }?.also { trnId = it }
-                dskRequest.coachId.takeIf { it != DskCoachId.NONE }?.also { coachId = it }
-                dskRequest.clientId.takeIf { it != DskClientId.NONE }?.also { clientId = it }
-                dskRequest.clientFullName.takeIf { it.isNotBlank() }?.also { clientFullName = it }
-                dskRequest.startsAt.takeIf { it != Instant.NONE }?.also { startsAt = it }
-                dskRequest.durationMin.takeIf { it.isPositive() }?.also { durationMin = it }
-                dskRequest.type.takeIf { it != DskTrnType.NONE }?.also { type = it }
-                dskRequest.planNotes.takeIf { it.isNotBlank() }?.also { planNotes = it }
-                dskRequest.resultNotes.takeIf { it.isNotBlank() }?.also { resultNotes = it }
-                dskRequest.status.takeIf { it != DskTrnStatus.NONE }?.also { status = it }
-                dskRequest.paymentStatus.takeIf { it != DskTrnPaymentStatus.NONE }?.also { paymentStatus = it }
+                trnRequest.trnId.takeIf { it.get() != DskTrnId.NONE.get() }?.also { trnId = it }
+                trnRequest.coachId.takeIf { it != DskCoachId.NONE }?.also { coachId = it }
+                trnRequest.clientId.takeIf { it != DskClientId.NONE }?.also { clientId = it }
+                trnRequest.clientFullName.takeIf { it.isNotBlank() }?.also { clientFullName = it }
+                trnRequest.startsAt.takeIf { it != Instant.NONE }?.also { startsAt = it }
+                trnRequest.durationMin.takeIf { it.isPositive() }?.also { durationMin = it }
+                trnRequest.type.takeIf { it != DskTrnType.NONE }?.also { type = it }
+                trnRequest.planNotes.takeIf { it.isNotBlank() }?.also { planNotes = it }
+                trnRequest.resultNotes.takeIf { it.isNotBlank() }?.also { resultNotes = it }
+                trnRequest.status.takeIf { it != DskTrnStatus.NONE }?.also { status = it }
+                trnRequest.paymentStatus.takeIf { it != DskTrnPaymentStatus.NONE }?.also { paymentStatus = it }
             }
         }
     }
