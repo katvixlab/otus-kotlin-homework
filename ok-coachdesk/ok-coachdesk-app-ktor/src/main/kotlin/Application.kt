@@ -17,7 +17,6 @@ import ok.coachdesk.app.plugins.initAppSettings
 import ok.coachdesk.app.v1.v1Trn
 import ok.coachdesk.app.v1.ws.wsHandlerV1
 import org.slf4j.event.Level
-import kotlin.time.Duration.Companion.seconds
 
 fun main(args: Array<String>) {
     io.ktor.server.netty.EngineMain.main(args)

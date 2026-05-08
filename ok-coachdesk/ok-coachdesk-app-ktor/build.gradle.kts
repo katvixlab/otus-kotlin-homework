@@ -27,16 +27,17 @@ dependencies {
     implementation(libs.ktor.server.websocket)
     implementation(libs.logback)
 
-    implementation(project(":ok-coachdesk-app-common"))
-    implementation(project(":ok-coachdesk-common"))
-    implementation(project(":ok-coachdesk-biz"))
-    implementation(project(":ok-coachdesk-api-v1-jackson"))
-    api("ru.otus.kotlin.coachdesk.libs:ok-coachdesk-libs-logging-logback")
-    api(project(":ok-coachdesk-api-v1-mapper"))
+    implementation(projects.okCoachdeskAppCommon)
+    implementation(projects.okCoachdeskCommon)
+    implementation(projects.okCoachdeskBiz)
+    implementation(projects.okCoachdeskApiV1Jackson)
+    implementation(projects.okCoachdeskApiV1Mapper)
+    implementation("ru.otus.kotlin.coachdesk.libs:ok-coachdesk-libs-logging-logback")
+
 
     testImplementation(libs.ktor.client.negotiation)
-    testImplementation("io.ktor:ktor-server-test-host")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:2.3.20")
+    testImplementation(libs.ktor.server.test.host)
+    testImplementation(libs.kotlin.junit)
 }
 
 tasks.register("prepareKotlinBuildScriptModel"){}

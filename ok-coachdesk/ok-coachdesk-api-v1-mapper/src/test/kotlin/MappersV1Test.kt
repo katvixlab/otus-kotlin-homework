@@ -93,16 +93,16 @@ class MappersV1Test {
         assertEquals(DskCommand.CREATE, context.command)
         assertEquals(DskWorkMode.TEST, context.workMode)
         assertEquals(DskStubs.SUCCESS, context.stubCase)
-        assertEquals(DskTrnId(trnId).get(), context.dskRequest.trnId.get())
-        assertEquals(models.DskCoachId(coachId).get(), context.dskRequest.coachId.get())
-        assertEquals("client", context.dskRequest.clientFullName)
-        assertEquals(startsAt, context.dskRequest.startsAt)
-        assertEquals(90.minutes, context.dskRequest.durationMin)
-        assertEquals(DskTrnType.PERSONAL, context.dskRequest.type)
-        assertEquals("plan", context.dskRequest.planNotes)
-        assertEquals("result", context.dskRequest.resultNotes)
-        assertEquals(DskTrnStatus.DONE, context.dskRequest.status)
-        assertEquals(DskTrnPaymentStatus.PAID, context.dskRequest.paymentStatus)
+        assertEquals(DskTrnId(trnId).get(), context.trnRequest.trnId.get())
+        assertEquals(models.DskCoachId(coachId).get(), context.trnRequest.coachId.get())
+        assertEquals("client", context.trnRequest.clientFullName)
+        assertEquals(startsAt, context.trnRequest.startsAt)
+        assertEquals(90.minutes, context.trnRequest.durationMin)
+        assertEquals(DskTrnType.PERSONAL, context.trnRequest.type)
+        assertEquals("plan", context.trnRequest.planNotes)
+        assertEquals("result", context.trnRequest.resultNotes)
+        assertEquals(DskTrnStatus.DONE, context.trnRequest.status)
+        assertEquals(DskTrnPaymentStatus.PAID, context.trnRequest.paymentStatus)
     }
 
     @Test
@@ -141,8 +141,8 @@ class MappersV1Test {
         assertEquals(DskCommand.UPDATE, context.command)
         assertEquals(DskWorkMode.TEST, context.workMode)
         assertEquals(DskStubs.SUCCESS, context.stubCase)
-        assertEquals("client", context.dskRequest.clientFullName)
-        assertEquals(90.minutes, context.dskRequest.durationMin)
+        assertEquals("client", context.trnRequest.clientFullName)
+        assertEquals(90.minutes, context.trnRequest.durationMin)
     }
 
     @Test
@@ -181,8 +181,8 @@ class MappersV1Test {
         assertEquals(DskCommand.READ, context.command)
         assertEquals(DskWorkMode.TEST, context.workMode)
         assertEquals(DskStubs.SUCCESS, context.stubCase)
-        assertEquals(trnId, context.dskRequest.trnId.get())
-        assertEquals(coachId, context.dskRequest.coachId.get())
+        assertEquals(trnId, context.trnRequest.trnId.get())
+        assertEquals(coachId, context.trnRequest.coachId.get())
     }
 
     @Test
@@ -222,7 +222,7 @@ class MappersV1Test {
         )
 
         assertEquals(DskCommand.SEARCH, context.command)
-        assertEquals(DskTrn(), context.dskRequest)
+        assertEquals(DskTrn(), context.trnRequest)
     }
 
     @Test
@@ -262,8 +262,8 @@ class MappersV1Test {
         assertEquals(DskCommand.DELETE, context.command)
         assertEquals(DskWorkMode.TEST, context.workMode)
         assertEquals(DskStubs.SUCCESS, context.stubCase)
-        assertEquals(trnId, context.dskRequest.trnId.get())
-        assertEquals(coachId, context.dskRequest.coachId.get())
+        assertEquals(trnId, context.trnRequest.trnId.get())
+        assertEquals(coachId, context.trnRequest.coachId.get())
     }
 
     @Test

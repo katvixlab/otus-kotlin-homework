@@ -3,8 +3,7 @@ plugins{
 }
 
 dependencies {
-    implementation(project(":ok-coachdesk-common"))
-    implementation(project(":ok-coachdesk-biz"))
-    implementation(project(":ok-coachdesk-api-log"))
-
+    implementation(projects.okCoachdeskCommon)
+    implementation(projects.okCoachdeskBiz)
+    implementation(projects.okCoachdeskApiLog)
 }

@@ -25,3 +25,4 @@ plugins {
 
 include(":ok-coachdesk-libs-logging-common")
 include(":ok-coachdesk-libs-logging-logback")
+include(":ok-coachdesk-libs-cor")

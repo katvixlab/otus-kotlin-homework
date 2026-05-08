@@ -24,7 +24,7 @@ repositories {
 dependencies {
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
     implementation(libs.plugin.kotlin)
-    implementation(libs.plugin.binaryCompatibilityValidator)
+    implementation(libs.plugin.kotlin.compatibility.validator)
     testImplementation(kotlin("test-junit5"))
 }
 

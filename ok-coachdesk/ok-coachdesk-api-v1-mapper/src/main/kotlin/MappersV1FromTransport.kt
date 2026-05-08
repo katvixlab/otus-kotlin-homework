@@ -20,7 +20,7 @@ fun DskContext.from(request: TrnCreateRequest) {
     command = DskCommand.CREATE
     workMode = request.debug.toContextWorkMode()
     stubCase = request.debug.toContextStubCase()
-    dskRequest = request.trn?.toInternal() ?: DskTrn()
+    trnRequest = request.trn?.toInternal() ?: DskTrn()
 
 }
 
@@ -28,14 +28,14 @@ fun DskContext.from(request: TrnDeleteRequest) {
     command = DskCommand.DELETE
     workMode = request.debug.toContextWorkMode()
     stubCase = request.debug.toContextStubCase()
-    dskRequest = request.trn?.toInternal() ?: DskTrn()
+    trnRequest = request.trn?.toInternal() ?: DskTrn()
 }
 
 fun DskContext.from(request: TrnReadRequest) {
     command = DskCommand.READ
     workMode = request.debug.toContextWorkMode()
     stubCase = request.debug.toContextStubCase()
-    dskRequest = request.trn?.toInternal() ?: DskTrn()
+    trnRequest = request.trn?.toInternal() ?: DskTrn()
 }
 
 fun DskContext.from(request: TrnSearchRequest) {
@@ -46,7 +46,7 @@ fun DskContext.from(request: TrnUpdateRequest) {
     command = DskCommand.UPDATE
     workMode = request.debug.toContextWorkMode()
     stubCase = request.debug.toContextStubCase()
-    dskRequest = request.trn?.toInternal() ?: DskTrn()
+    trnRequest = request.trn?.toInternal() ?: DskTrn()
 }
 
 private fun TrnDebug?.toContextWorkMode() = when (this?.mode) {
@@ -61,7 +61,11 @@ private fun TrnDebug?.toContextStubCase() = when (this?.stub) {
     TrnRequestDebugStubs.NOT_FOUND -> DskStubs.NOT_FOUND
     TrnRequestDebugStubs.MISMATCH_SEARCH_STRING -> DskStubs.MISMATCH_SEARCH_STRING
     TrnRequestDebugStubs.DB_ERROR -> DskStubs.DB_ERROR
-    TrnRequestDebugStubs.MISMATCH_ID -> DskStubs.MISMATCH_ID
+    TrnRequestDebugStubs.BAD_ID -> DskStubs.BAD_ID
+    TrnRequestDebugStubs.BAD_FIELD -> DskStubs.BAD_FIELD
+    TrnRequestDebugStubs.BAD_COACH_ID -> DskStubs.BAD_COACH_ID
+    TrnRequestDebugStubs.BAD_CLIENT_ID -> DskStubs.BAD_CLIENT_ID
+    TrnRequestDebugStubs.BAD_STARTS_AT -> DskStubs.BAD_STARTS_AT
     TrnRequestDebugStubs.SUCCESS -> DskStubs.SUCCESS
     null -> DskStubs.NONE
 }
