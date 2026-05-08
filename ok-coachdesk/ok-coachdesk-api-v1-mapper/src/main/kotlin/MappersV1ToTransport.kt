@@ -12,6 +12,7 @@ import ru.otus.kotlin.coachdesk.api.v1.models.IResponse
 import ru.otus.kotlin.coachdesk.api.v1.models.RequestResult
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnCreateResponse
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnDeleteResponse
+import ru.otus.kotlin.coachdesk.api.v1.models.TrnInitResponse
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnPaymentStatus
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnReadResponse
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnResponseObject
@@ -28,6 +29,13 @@ fun DskContext.toTransport(): IResponse = when (command) {
     DskCommand.READ -> toTransportRead()
     DskCommand.SEARCH -> toTransportSearch()
     DskCommand.DELETE -> toTransportDelete()
+    DskCommand.INIT -> toTransportInit()
+    DskCommand.FINISH -> object : IResponse {
+        override val responseType: String? = null
+        override val result: RequestResult? = null
+        override val errors: List<Error>? = null
+    }
+
     DskCommand.NONE -> throw IllegalStateException("Command must not be NONE")
 }
 
@@ -64,6 +72,11 @@ private fun DskContext.toTransportDelete() = TrnDeleteResponse(
     result = state.toTransportResult(),
     errors = errors.toTransportErrors(),
     trnId = dskResponse.trnId.toTransportUuid(),
+)
+
+private fun DskContext.toTransportInit() = TrnInitResponse(
+    result = state.toTransportResult(),
+    errors = errors.toTransportErrors(),
 )
 
 private fun DskState.toTransportResult(): RequestResult = when (this) {

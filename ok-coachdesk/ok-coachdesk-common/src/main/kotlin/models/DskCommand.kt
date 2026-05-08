@@ -7,4 +7,6 @@ enum class DskCommand {
     UPDATE,
     DELETE,
     SEARCH,
+    INIT,
+    FINISH,
 }

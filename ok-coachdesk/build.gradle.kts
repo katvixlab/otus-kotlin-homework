@@ -1,5 +1,5 @@
 plugins {
-    id("build-jvm")
+    alias(libs.plugins.kotlin.jvm) apply false
 }
 
 group = "ru.otus.kotlin.coachdesk"
@@ -19,5 +19,6 @@ subprojects {
 ext {
     val specDir = layout.projectDirectory.dir("../specs")
     set("spec-v1", specDir.file("specs-ts-v1.yml").toString())
+    set("spec-log", specDir.file("specs-ts-log.yml").toString())
 }
 
