@@ -16,9 +16,9 @@ class TrnUpdateStubTest {
         processor.exec(ctx)
 
         assertSuccess(ctx)
-        assertEquals(StubTestData.trnId.get(), ctx.dskResponse.trnId.get())
-        assertEquals(StubTestData.clientFullName, ctx.dskResponse.clientFullName)
-        assertEquals(StubTestData.startsAt, ctx.dskResponse.startsAt)
+        assertEquals(StubTestData.trnId.get(), ctx.trnResponse.trnId.get())
+        assertEquals(StubTestData.clientFullName, ctx.trnResponse.clientFullName)
+        assertEquals(StubTestData.startsAt, ctx.trnResponse.startsAt)
     }
 
     @Test

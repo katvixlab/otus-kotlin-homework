@@ -110,7 +110,7 @@ class MappersV1Test {
         val context = DskContext(
             command = DskCommand.CREATE,
             state = DskState.FINISHED,
-            dskResponse = internalTrn,
+            trnResponse = internalTrn,
             errors = mutableListOf(error),
         )
 
@@ -150,7 +150,7 @@ class MappersV1Test {
         val context = DskContext(
             command = DskCommand.UPDATE,
             state = DskState.FINISHED,
-            dskResponse = internalTrn,
+            trnResponse = internalTrn,
             errors = mutableListOf(error),
         )
 
@@ -173,7 +173,7 @@ class MappersV1Test {
                 debug = transportDebug,
                 trn = IdTrn(
                     trnId = trnId,
-                    coachId = coachId,
+                    coachId = coachId
                 ),
             )
         )
@@ -190,7 +190,7 @@ class MappersV1Test {
         val context = DskContext(
             command = DskCommand.READ,
             state = DskState.FINISHED,
-            dskResponse = internalTrn,
+            trnResponse = internalTrn,
             errors = mutableListOf(error),
         )
 
@@ -230,7 +230,7 @@ class MappersV1Test {
         val context = DskContext(
             command = DskCommand.SEARCH,
             state = DskState.FINISHED,
-            dsksResponse = mutableListOf(internalTrn),
+            trnsResponse = mutableListOf(internalTrn),
             errors = mutableListOf(error),
         )
 
@@ -271,7 +271,7 @@ class MappersV1Test {
         val context = DskContext(
             command = DskCommand.DELETE,
             state = DskState.FAILED,
-            dskResponse = DskTrn(trnId = DskTrnId(trnId)),
+            trnResponse = DskTrn(trnId = DskTrnId(trnId)),
             errors = mutableListOf(error),
         )
 

@@ -73,6 +73,7 @@ private fun TrnDebug?.toContextStubCase() = when (this?.stub) {
 private fun TrnRequestObject.toInternal(): DskTrn = DskTrn(
     trnId = this.trnId?.let { DskTrnId(it) } ?: DskTrnId.NONE,
     coachId = this.coachId?.let { DskCoachId(it) } ?: DskCoachId.NONE,
+    clientId = this.clientId?.let { DskClientId(it) } ?: DskClientId.NONE,
     clientFullName = this.clientFullName ?: "",
     startsAt = this.startsAt?.let { Instant.parse(it) } ?: Instant.NONE,
     durationMin = this.durationMin?.let { parseInt(it) }?.minutes ?: Duration.ZERO,

@@ -1,4 +1,3 @@
-import DskContext
 import kotlinx.datetime.Instant
 import models.DskCommand
 import models.DskError
@@ -43,35 +42,35 @@ private fun DskContext.toTransportCreate() = TrnCreateResponse(
     responseType = "create",
     result = state.toTransportResult(),
     errors = errors.toTransportErrors(),
-    trn = dskResponse.toTransportTrn(),
+    trn = trnResponse.toTransportTrn(),
 )
 
 private fun DskContext.toTransportUpdate() = TrnUpdateResponse(
     responseType = "update",
     result = state.toTransportResult(),
     errors = errors.toTransportErrors(),
-    trn = dskResponse.toTransportTrn(),
+    trn = trnResponse.toTransportTrn(),
 )
 
 private fun DskContext.toTransportRead() = TrnReadResponse(
     responseType = "read",
     result = state.toTransportResult(),
     errors = errors.toTransportErrors(),
-    trn = dskResponse.toTransportTrn(),
+    trn = trnResponse.toTransportTrn(),
 )
 
 private fun DskContext.toTransportSearch() = TrnSearchResponse(
     responseType = "search",
     result = state.toTransportResult(),
     errors = errors.toTransportErrors(),
-    trns = dsksResponse.mapNotNull { it.toTransportTrn() }.takeIf { it.isNotEmpty() },
+    trns = trnsResponse.mapNotNull { it.toTransportTrn() }.takeIf { it.isNotEmpty() },
 )
 
 private fun DskContext.toTransportDelete() = TrnDeleteResponse(
     responseType = "delete",
     result = state.toTransportResult(),
     errors = errors.toTransportErrors(),
-    trnId = dskResponse.trnId.toTransportUuid(),
+    trnId = trnResponse.trnId.toTransportUuid(),
 )
 
 private fun DskContext.toTransportInit() = TrnInitResponse(

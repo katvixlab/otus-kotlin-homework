@@ -16,8 +16,8 @@ class TrnReadStubTest {
         processor.exec(ctx)
 
         assertSuccess(ctx)
-        assertEquals(StubTestData.trnId.get(), ctx.dskResponse.trnId.get())
-        assertEquals(StubTestData.coachId, ctx.dskResponse.coachId)
+        assertEquals(StubTestData.trnId.get(), ctx.trnResponse.trnId.get())
+        assertEquals(StubTestData.coachId, ctx.trnResponse.coachId)
     }
 
     @Test

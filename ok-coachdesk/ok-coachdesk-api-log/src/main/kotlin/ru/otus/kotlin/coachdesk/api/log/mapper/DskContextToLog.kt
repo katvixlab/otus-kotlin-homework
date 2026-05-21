@@ -22,8 +22,8 @@ private fun DskContext.toDskLogModel(): DskTrnLogModel = DskTrnLogModel(
     operation = command.toLogOperation(),
     requestTrn = trnRequest.takeIf { it != DskTrn() }?.toLog(),
     requestFilter = trnFilterRequest.takeIf { it != DskTrnFilter() }?.toLog(),
-    responseTrn = dskResponse.takeIf { it != DskTrn() }?.toLog(),
-    responseTrns = dsksResponse.takeIf { it.isNotEmpty() }?.map { it.toLog() }
+    responseTrn = trnResponse.takeIf { it != DskTrn() }?.toLog(),
+    responseTrns = trnsResponse.takeIf { it.isNotEmpty() }?.map { it.toLog() }
 )
 
 private fun DskCommand.toLogOperation(): TrnLogOperation = when (this) {

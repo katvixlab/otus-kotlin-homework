@@ -16,10 +16,16 @@ fun Throwable.asDskError(
     exception = this,
 )
 
-fun DskContext.addErrors(vararg error: DskError) = errors.addAll(error)
+fun DskContext.addErrors(error: Collection<DskError>) = errors.addAll(error)
+fun DskContext.addError(error: DskError) = errors.add(error)
 
 fun DskContext.fail(error: DskError) {
-    addErrors(error)
+    addError(error)
+    state = DskState.FAILED
+}
+
+fun DskContext.fail(errors: Collection<DskError>) {
+    addErrors(errors)
     state = DskState.FAILED
 }
 
@@ -34,4 +40,16 @@ fun errorValidation(
     group = "validation",
     message = "Validation error for field $field: $description",
     level = level,
+)
+
+fun errorSystem(
+    violationCode: String,
+    level: LogLevel = LogLevel.ERROR,
+    e: Throwable,
+) = DskError(
+    code = "system-$violationCode",
+    group = "system",
+    message = "System error occurred. Our stuff has been informed, please retry later",
+    level = level,
+    exception = e,
 )

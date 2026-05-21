@@ -1,5 +1,6 @@
 import kotlinx.datetime.Instant
 import models.*
+import repo.IRepoTrn
 import stubs.DskStubs
 import ws.IDskWsSession
 
@@ -24,6 +25,12 @@ data class DskContext(
     var trnValidated: DskTrn = DskTrn(),
     var trnFilterValidated: DskTrnFilter = DskTrnFilter(),
 
-    var dskResponse: DskTrn = DskTrn(),
-    var dsksResponse: MutableList<DskTrn> = mutableListOf(),
+    var trnRepo: IRepoTrn = IRepoTrn.NONE,
+    var trnRepoRead: DskTrn = DskTrn(),
+    var trnRepoPrepare: DskTrn = DskTrn(),
+    var trnRepoDone: DskTrn = DskTrn(),
+    var trnsRepoDone: MutableList<DskTrn> = mutableListOf(),
+
+    var trnResponse: DskTrn = DskTrn(),
+    var trnsResponse: MutableList<DskTrn> = mutableListOf(),
 )

@@ -32,6 +32,8 @@ dependencies {
     implementation(projects.okCoachdeskBiz)
     implementation(projects.okCoachdeskApiV1Jackson)
     implementation(projects.okCoachdeskApiV1Mapper)
+    implementation(projects.okCoachdeskRepoInmemory)
+    implementation(projects.okCoachdeskRepoCommon)
     implementation("ru.otus.kotlin.coachdesk.libs:ok-coachdesk-libs-logging-logback")
 
 

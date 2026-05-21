@@ -16,10 +16,10 @@ class TrnCreateStubTest {
         processor.exec(ctx)
 
         assertSuccess(ctx)
-        assertEquals(StubTestData.clientFullName, ctx.dskResponse.clientFullName)
-        assertEquals(StubTestData.coachId, ctx.dskResponse.coachId)
-        assertEquals(StubTestData.clientId, ctx.dskResponse.clientId)
-        assertEquals(StubTestData.startsAt, ctx.dskResponse.startsAt)
+        assertEquals(StubTestData.clientFullName, ctx.trnResponse.clientFullName)
+        assertEquals(StubTestData.coachId, ctx.trnResponse.coachId)
+        assertEquals(StubTestData.clientId, ctx.trnResponse.clientId)
+        assertEquals(StubTestData.startsAt, ctx.trnResponse.startsAt)
     }
 
     @Test

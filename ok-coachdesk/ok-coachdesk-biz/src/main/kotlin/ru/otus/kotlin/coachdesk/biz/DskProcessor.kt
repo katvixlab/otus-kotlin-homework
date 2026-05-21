@@ -3,12 +3,23 @@ package ru.otus.kotlin.coachdesk.biz
 import DskContext
 import DskCorSettings
 import models.DskCommand
+import models.DskState
 import ru.otus.kotlin.coachdesk.biz.general.finishTrnFilterValidation
 import ru.otus.kotlin.coachdesk.biz.general.finishTrnValidation
 import ru.otus.kotlin.coachdesk.biz.general.initStatus
 import ru.otus.kotlin.coachdesk.biz.general.operation
 import ru.otus.kotlin.coachdesk.biz.general.stubs
 import ru.otus.kotlin.coachdesk.biz.general.validation
+import ru.otus.kotlin.coachdesk.biz.repo.initRepo
+import ru.otus.kotlin.coachdesk.biz.repo.prepareResult
+import ru.otus.kotlin.coachdesk.biz.repo.repoCreate
+import ru.otus.kotlin.coachdesk.biz.repo.repoDelete
+import ru.otus.kotlin.coachdesk.biz.repo.repoPrepareCreate
+import ru.otus.kotlin.coachdesk.biz.repo.repoPrepareDelete
+import ru.otus.kotlin.coachdesk.biz.repo.repoPrepareUpdate
+import ru.otus.kotlin.coachdesk.biz.repo.repoRead
+import ru.otus.kotlin.coachdesk.biz.repo.repoSearch
+import ru.otus.kotlin.coachdesk.biz.repo.repoUpdate
 import ru.otus.kotlin.coachdesk.biz.stubs.stubCannotDelete
 import ru.otus.kotlin.coachdesk.biz.stubs.stubCreateSuccess
 import ru.otus.kotlin.coachdesk.biz.stubs.stubDbError
@@ -44,6 +55,7 @@ import ru.otus.kotlin.coachdesk.biz.validation.validateStartsAtNotEmpty
 import ru.otus.kotlin.coachdesk.biz.validation.validateStatusNotEmpty
 import ru.otus.kotlin.coachdesk.biz.validation.validateTrnIdNotEmpty
 import ru.otus.kotlin.coachdesk.biz.validation.validateTypeNotEmpty
+import ru.otus.kotlin.coachdesk.cor.chain
 import ru.otus.kotlin.coachdesk.cor.rootChain
 import ru.otus.kotlin.coachdesk.cor.worker
 
@@ -56,6 +68,7 @@ class DskProcessor(
 
     private val businessChain = rootChain {
         initStatus("Инициализация статуса")
+        initRepo("Инициализация репозитория")
 
         operation("Создание тренировки", DskCommand.CREATE) {
             stubs("Обработка стабов") {
@@ -87,6 +100,12 @@ class DskProcessor(
                 validatePaymentStatusNotEmpty("Проверка что статус оплаты не пустой")
                 finishTrnValidation("Успешное завершение процедуры валидации")
             }
+            chain {
+                title = "Логика сохранения"
+                repoPrepareCreate("Подготовка объекта для сохранения")
+                repoCreate("Создание объявления в БД")
+            }
+            prepareResult("Подготовка ответа")
         }
 
         operation("Получить тренировку", DskCommand.READ) {
@@ -103,6 +122,16 @@ class DskProcessor(
                 validateTrnIdNotEmpty("Проверка что id тренировки не пустой")
                 finishTrnValidation("Успешное завершение процедуры валидации")
             }
+            chain {
+                title = "Логика чтения"
+                repoRead("Чтение объявления из БД")
+                worker {
+                    title = "Подготовка ответа для Read"
+                    on { state == DskState.PROCESSING }
+                    handle { trnRepoDone = trnRepoRead }
+                }
+            }
+            prepareResult("Подготовка ответа")
         }
 
         operation("Изменить тренировку", DskCommand.UPDATE) {
@@ -136,6 +165,13 @@ class DskProcessor(
                 validatePaymentStatusNotEmpty("Проверка что статус оплаты не пустой")
                 finishTrnValidation("Успешное завершение процедуры валидации")
             }
+            chain {
+                title = "Логика сохранения"
+                repoRead("Чтение объявления из БД")
+                repoPrepareUpdate("Подготовка объекта для обновления")
+                repoUpdate("Обновление объявления в БД")
+            }
+            prepareResult("Подготовка ответа")
         }
 
         operation("Удалить тренировку", DskCommand.DELETE) {
@@ -153,6 +189,13 @@ class DskProcessor(
                 validateTrnIdNotEmpty("Проверка что id тренировки не пустой")
                 finishTrnValidation("Успешное завершение процедуры валидации")
             }
+            chain {
+                title = "Логика удаления"
+                repoRead("Чтение объявления из БД")
+                repoPrepareDelete("Подготовка объекта для удаления")
+                repoDelete("Удаление объявления из БД")
+            }
+            prepareResult("Подготовка ответа")
         }
 
         operation("Поиск тренировок", DskCommand.SEARCH) {
@@ -175,6 +218,8 @@ class DskProcessor(
                 validateFilterPaymentStatusNotEmpty("Проверка что статус оплаты в фильтре не пустой")
                 finishTrnFilterValidation("Успешное завершение процедуры валидации фильтра")
             }
+            repoSearch("Поиск объявления в БД по фильтру")
+            prepareResult("Подготовка ответа")
         }
     }.build()
 

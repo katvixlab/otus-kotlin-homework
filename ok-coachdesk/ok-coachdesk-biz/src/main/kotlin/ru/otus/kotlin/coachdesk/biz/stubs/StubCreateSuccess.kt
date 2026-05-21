@@ -39,7 +39,7 @@ fun ICorChainDsl<DskContext>.stubCreateSuccess(title: String, corSettings: DskCo
                 trnRequest.resultNotes.takeIf { it.isNotBlank() }?.also { this.resultNotes = it }
                 trnRequest.status.takeIf { it != DskTrnStatus.NONE }?.also { this.status = it }
             }
-            dskResponse = stub
+            trnResponse = stub
         }
     }
 }

@@ -81,7 +81,7 @@ fun assertStubError(
     field: String = "",
 ) {
     assertEquals(DskState.FAILED, ctx.state)
-    assertEquals(DskTrn(), ctx.dskResponse)
+    assertEquals(DskTrn(), ctx.trnResponse)
     assertEquals(group, ctx.errors.firstOrNull()?.group)
     assertEquals(code, ctx.errors.firstOrNull()?.code)
     assertEquals(field, ctx.errors.firstOrNull()?.field)

@@ -17,8 +17,8 @@ class TrnSearchStubTest {
         processor.exec(ctx)
 
         assertSuccess(ctx)
-        assertEquals(6, ctx.dsksResponse.size)
-        assertEquals(StubTestData.clientFullName, ctx.dsksResponse.first().planNotes)
+        assertEquals(6, ctx.trnsResponse.size)
+        assertEquals(StubTestData.clientFullName, ctx.trnsResponse.first().planNotes)
     }
 
     @Test
@@ -36,7 +36,7 @@ class TrnSearchStubTest {
 
         processor.exec(ctx)
 
-        assertEquals(emptyList(), ctx.dsksResponse)
+        assertEquals(emptyList(), ctx.trnsResponse)
         assertStubError(ctx, group = "internal", code = "internal-db")
     }
 
@@ -46,7 +46,7 @@ class TrnSearchStubTest {
 
         processor.exec(ctx)
 
-        assertEquals(DskTrn(), ctx.dskResponse)
+        assertEquals(DskTrn(), ctx.trnResponse)
         assertStubError(ctx, group = "stub", code = "unsupported-stub", field = "stub")
     }
 }

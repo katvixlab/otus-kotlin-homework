@@ -27,7 +27,7 @@ internal fun ICorChainDsl<DskContext>.stubSuccessResponse(title: String, corSett
     handle {
         logger.doWithLogging(id = requestId.asString(), LogLevel.DEBUG) {
             state = DskState.FINISHED
-            dskResponse = DskStub.prepareResult {
+            trnResponse = DskStub.prepareResult {
                 trnRequest.trnId.takeIf { it.get() != DskTrnId.NONE.get() }?.also { trnId = it }
                 trnRequest.coachId.takeIf { it != DskCoachId.NONE }?.also { coachId = it }
                 trnRequest.clientId.takeIf { it != DskClientId.NONE }?.also { clientId = it }

@@ -318,6 +318,10 @@ components:
           type: string
           format: uuid
           description: Идентификатор тренера
+        clientId:
+          type: string
+          format: uuid
+          description: Идентификатор клиента
 
     TrnType:
       type: string
