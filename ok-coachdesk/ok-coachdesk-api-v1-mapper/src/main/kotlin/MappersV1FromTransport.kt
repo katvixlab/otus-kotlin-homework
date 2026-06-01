@@ -40,6 +40,7 @@ fun DskContext.from(request: TrnReadRequest) {
 
 fun DskContext.from(request: TrnSearchRequest) {
     command = DskCommand.SEARCH
+    trnFilterRequest = request.trnFilter?.toInternal() ?: DskTrnFilter()
 }
 
 fun DskContext.from(request: TrnUpdateRequest) {
@@ -71,6 +72,20 @@ private fun TrnDebug?.toContextStubCase() = when (this?.stub) {
 }
 
 private fun TrnRequestObject.toInternal(): DskTrn = DskTrn(
+    trnId = DskTrnId.NONE,
+    coachId = this.coachId?.let { DskCoachId(it) } ?: DskCoachId.NONE,
+    clientId = this.clientId?.let { DskClientId(it) } ?: DskClientId.NONE,
+    clientFullName = this.clientFullName ?: "",
+    startsAt = this.startsAt?.let { Instant.parse(it) } ?: Instant.NONE,
+    durationMin = this.durationMin?.let { parseInt(it) }?.minutes ?: Duration.ZERO,
+    type = this.type?.toInternal() ?: DskTrnType.NONE,
+    planNotes = this.planNotes ?: "",
+    resultNotes = this.resultNotes ?: "",
+    status = this.status?.toInternal() ?: DskTrnStatus.NONE,
+    paymentStatus = this.paymentStatus?.toInternal() ?: DskTrnPaymentStatus.NONE
+)
+
+private fun TrnWithIdRequestObject.toInternal(): DskTrn = DskTrn(
     trnId = this.trnId?.let { DskTrnId(it) } ?: DskTrnId.NONE,
     coachId = this.coachId?.let { DskCoachId(it) } ?: DskCoachId.NONE,
     clientId = this.clientId?.let { DskClientId(it) } ?: DskClientId.NONE,
@@ -106,5 +121,17 @@ private fun TrnPaymentStatus.toInternal(): DskTrnPaymentStatus = when (this) {
 
 private fun IdTrn.toInternal(): DskTrn = DskTrn(
     trnId = this.trnId?.let { DskTrnId(it) } ?: DskTrnId.NONE,
+)
+
+private fun IdDskTrn.toInternal(): DskTrn = DskTrn(
     coachId = this.coachId?.let { DskCoachId(it) } ?: DskCoachId.NONE,
+    clientId = this.clientId?.let { DskClientId(it) } ?: DskClientId.NONE,
+)
+
+private fun TrnFilter.toInternal(): DskTrnFilter = DskTrnFilter(
+    clientFullName = this.clientFullName ?: "",
+    startsAt = this.startsAt?.let { Instant.parse(it) } ?: Instant.NONE,
+    type = this.type?.toInternal() ?: DskTrnType.NONE,
+    status = this.status?.toInternal() ?: DskTrnStatus.NONE,
+    paymentStatus = this.paymentStatus?.toInternal() ?: DskTrnPaymentStatus.NONE,
 )

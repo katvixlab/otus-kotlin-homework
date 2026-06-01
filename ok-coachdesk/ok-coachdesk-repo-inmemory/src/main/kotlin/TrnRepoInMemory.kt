@@ -70,7 +70,7 @@ class TrnRepoInMemory(
         val result = cache.asMap().asSequence()
             .filter { obj ->
                 req.clientFullName.takeIf { it.isNotBlank() }?.let {
-                    it == obj.value.clientFullName
+                    obj.value.clientFullName?.contains(it, ignoreCase = true)
                 } ?: true
             }
             .filter { obj ->

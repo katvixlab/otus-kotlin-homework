@@ -195,7 +195,8 @@ components:
         - type: object
           properties:
             trn:
-              $ref: '#/components/schemas/TrnRequestObject'
+              $ref: '#/components/schemas/TrnWithIdRequestObject'
+
 
     TrnUpdateResponse:
       allOf:
@@ -236,7 +237,7 @@ components:
 
     TrnFilter:
       allOf:
-        - $ref: '#/components/schemas/IdTrn'
+        - $ref: '#/components/schemas/IdDskTrn'
         - $ref: '#/components/schemas/TrnSearchFilter'
 
     TrnSearchResponse:
@@ -275,7 +276,13 @@ components:
 
     TrnRequestObject:
       allOf:
+        - $ref: '#/components/schemas/IdDskTrn'
+        - $ref: '#/components/schemas/BaseTrn'
+
+    TrnWithIdRequestObject:
+      allOf:
         - $ref: '#/components/schemas/IdTrn'
+        - $ref: '#/components/schemas/IdDskTrn'
         - $ref: '#/components/schemas/BaseTrn'
 
     BaseTrn:
@@ -314,6 +321,12 @@ components:
           type: string
           format: uuid
           description: Идентификатор тренировки
+
+
+    IdDskTrn:
+      type: object
+      description: Объект описывающий идентификатор тренера и клиента
+      properties:
         coachId:
           type: string
           format: uuid
