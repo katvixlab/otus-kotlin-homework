@@ -1,3 +1,5 @@
+package stub
+
 import kotlinx.coroutines.test.runTest
 import models.DskCommand
 import ru.otus.kotlin.coachdesk.biz.DskProcessor

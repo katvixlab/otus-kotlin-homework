@@ -8,13 +8,13 @@ object DskStub {
 
     fun prepareResult(block: DskTrn.() -> Unit): DskTrn = get().apply(block)
 
-    fun prepareListDskTrn(filter: String) = listOf(
-        AD_TRN.copy(trnId = DskTrnId(UUID.fromString("12345678-1111-1234-0000-0000000001")), planNotes = filter),
-        AD_TRN.copy(trnId = DskTrnId(UUID.fromString("12345678-1111-1234-0000-0000000002")), planNotes = filter),
-        AD_TRN.copy(trnId = DskTrnId(UUID.fromString("12345678-1111-1234-0000-0000000003")), planNotes = filter),
-        AD_TRN.copy(trnId = DskTrnId(UUID.fromString("12345678-1111-1234-0000-0000000004")), planNotes = filter),
-        AD_TRN.copy(trnId = DskTrnId(UUID.fromString("12345678-1111-1234-0000-0000000005")), planNotes = filter),
-        AD_TRN.copy(trnId = DskTrnId(UUID.fromString("12345678-1111-1234-0000-0000000006")), planNotes = filter),
+    fun prepareListDskTrn() = listOf(
+        AD_TRN.copy(trnId = DskTrnId(UUID.fromString("12345678-1111-1234-0000-0000000001"))),
+        AD_TRN.copy(trnId = DskTrnId(UUID.fromString("12345678-1111-1234-0000-0000000002"))),
+        AD_TRN.copy(trnId = DskTrnId(UUID.fromString("12345678-1111-1234-0000-0000000003"))),
+        AD_TRN.copy(trnId = DskTrnId(UUID.fromString("12345678-1111-1234-0000-0000000004"))),
+        AD_TRN.copy(trnId = DskTrnId(UUID.fromString("12345678-1111-1234-0000-0000000005"))),
+        AD_TRN.copy(trnId = DskTrnId(UUID.fromString("12345678-1111-1234-0000-0000000006"))),
     )
 }
 

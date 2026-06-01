@@ -1,12 +1,20 @@
+package validation
+
+import NONE
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.DskClientId
 import models.DskCoachId
 import models.DskCommand
+import models.DskTrnId
 import models.DskTrnPaymentStatus
 import models.DskTrnStatus
 import models.DskTrnType
-import ru.otus.kotlin.coachdesk.biz.DskProcessor
+import stub.StubTestData
+import stub.assertValidationError
+import stub.assertValidationSuccess
+import stub.validationContext
+import stub.validationProcessor
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.hours
@@ -14,14 +22,14 @@ import kotlin.time.Duration.Companion.minutes
 
 class TrnCreateValidationTest {
 
-    private val processor = DskProcessor()
+    private val processor = validationProcessor()
 
     @Test
     fun success() = runTest {
         val ctx = validationContext(
             command = DskCommand.CREATE,
             request = StubTestData.request.copy(
-                trnId = models.DskTrnId.NONE,
+                trnId = DskTrnId.NONE,
                 clientFullName = "  Иванов Иван Иванович  ",
                 planNotes = "  план  ",
                 resultNotes = "  итог  ",
@@ -31,7 +39,7 @@ class TrnCreateValidationTest {
         processor.exec(ctx)
 
         assertValidationSuccess(ctx)
-        assertEquals(models.DskTrnId.NONE.get(), ctx.trnValidated.trnId.get())
+        assertEquals(DskTrnId.NONE.get(), ctx.trnValidated.trnId.get())
         assertEquals("Иванов Иван Иванович", ctx.trnValidated.clientFullName)
         assertEquals("план", ctx.trnValidated.planNotes)
         assertEquals("итог", ctx.trnValidated.resultNotes)
@@ -84,7 +92,10 @@ class TrnCreateValidationTest {
 
     @Test
     fun badClientFullNameLongWord() = runTest {
-        val ctx = validationContext(DskCommand.CREATE, StubTestData.request.copy(clientFullName = "Оченьдлиннаяфамилияклиента Иван"))
+        val ctx = validationContext(
+            DskCommand.CREATE,
+            StubTestData.request.copy(clientFullName = "Оченьдлиннаяфамилияклиента Иван")
+        )
 
         processor.exec(ctx)
 
@@ -189,7 +200,8 @@ class TrnCreateValidationTest {
 
     @Test
     fun emptyPaymentStatus() = runTest {
-        val ctx = validationContext(DskCommand.CREATE, StubTestData.request.copy(paymentStatus = DskTrnPaymentStatus.NONE))
+        val ctx =
+            validationContext(DskCommand.CREATE, StubTestData.request.copy(paymentStatus = DskTrnPaymentStatus.NONE))
 
         processor.exec(ctx)
 

@@ -1,3 +1,8 @@
+package stub
+
+import DskContext
+import DskCorSettings
+import TrnRepositoryMock
 import kotlinx.datetime.Instant
 import models.DskClientId
 import models.DskCoachId
@@ -10,6 +15,7 @@ import models.DskTrnPaymentStatus
 import models.DskTrnStatus
 import models.DskTrnType
 import models.DskWorkMode
+import ru.otus.kotlin.coachdesk.biz.DskProcessor
 import stubs.DskStubs
 import java.util.UUID
 import kotlin.test.assertEquals
@@ -74,6 +80,10 @@ fun validationContext(
     timeStart = timeStart,
 )
 
+fun validationProcessor() = DskProcessor(
+    DskCorSettings(repoTest = TrnRepositoryMock())
+)
+
 fun assertStubError(
     ctx: DskContext,
     group: String = "validation",
@@ -104,6 +114,6 @@ fun assertValidationError(
 }
 
 fun assertValidationSuccess(ctx: DskContext) {
-    assertEquals(DskState.PROCESSING, ctx.state)
+    assertEquals(DskState.FINISHED, ctx.state)
     assertTrue(ctx.errors.isEmpty())
 }

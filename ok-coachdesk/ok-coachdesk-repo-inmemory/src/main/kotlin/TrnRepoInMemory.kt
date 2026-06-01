@@ -81,7 +81,7 @@ class TrnRepoInMemory(
             .filter { obj ->
                 req.startsAt.takeIf { it != Instant.NONE }?.let {
                     val instant = obj.value.startsAt?.let { input -> Instant.parse(input) } ?: return@let true
-                    instant > it.plus(5.minutes) && instant < it.minus(5.minutes)
+                    instant >= it.minus(5.minutes) && instant <= it.plus(5.minutes)
                 } ?: true
             }
             .filter { obj ->

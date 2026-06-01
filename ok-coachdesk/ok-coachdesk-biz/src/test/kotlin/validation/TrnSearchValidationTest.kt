@@ -1,17 +1,23 @@
+package validation
+
+import NONE
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.DskCommand
-import models.DskTrnFilter
 import models.DskTrnPaymentStatus
 import models.DskTrnStatus
 import models.DskTrnType
-import ru.otus.kotlin.coachdesk.biz.DskProcessor
+import stub.StubTestData
+import stub.assertValidationError
+import stub.assertValidationSuccess
+import stub.validationContext
+import stub.validationProcessor
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class TrnSearchValidationTest {
 
-    private val processor = DskProcessor()
+    private val processor = validationProcessor()
 
     @Test
     fun success() = runTest {
@@ -64,7 +70,10 @@ class TrnSearchValidationTest {
 
     @Test
     fun emptyPaymentStatus() = runTest {
-        val ctx = validationContext(DskCommand.SEARCH, filter = StubTestData.filter.copy(paymentStatus = DskTrnPaymentStatus.NONE))
+        val ctx = validationContext(
+            DskCommand.SEARCH,
+            filter = StubTestData.filter.copy(paymentStatus = DskTrnPaymentStatus.NONE)
+        )
 
         processor.exec(ctx)
 

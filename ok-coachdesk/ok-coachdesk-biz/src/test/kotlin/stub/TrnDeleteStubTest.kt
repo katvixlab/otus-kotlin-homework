@@ -1,3 +1,5 @@
+package stub
+
 import kotlinx.coroutines.test.runTest
 import models.DskCommand
 import ru.otus.kotlin.coachdesk.biz.DskProcessor
@@ -5,13 +7,13 @@ import stubs.DskStubs
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class TrnReadStubTest {
+class TrnDeleteStubTest {
 
     private val processor = DskProcessor()
 
     @Test
     fun success() = runTest {
-        val ctx = stubContext(DskCommand.READ, DskStubs.SUCCESS)
+        val ctx = stubContext(DskCommand.DELETE, DskStubs.SUCCESS)
 
         processor.exec(ctx)
 
@@ -22,7 +24,7 @@ class TrnReadStubTest {
 
     @Test
     fun badId() = runTest {
-        val ctx = stubContext(DskCommand.READ, DskStubs.BAD_ID)
+        val ctx = stubContext(DskCommand.DELETE, DskStubs.BAD_ID)
 
         processor.exec(ctx)
 
@@ -31,7 +33,7 @@ class TrnReadStubTest {
 
     @Test
     fun notFound() = runTest {
-        val ctx = stubContext(DskCommand.READ, DskStubs.NOT_FOUND)
+        val ctx = stubContext(DskCommand.DELETE, DskStubs.NOT_FOUND)
 
         processor.exec(ctx)
 
@@ -39,8 +41,17 @@ class TrnReadStubTest {
     }
 
     @Test
+    fun cannotDelete() = runTest {
+        val ctx = stubContext(DskCommand.DELETE, DskStubs.CANNOT_DELETE)
+
+        processor.exec(ctx)
+
+        assertStubError(ctx, code = "cannot-delete", field = "trnId")
+    }
+
+    @Test
     fun databaseError() = runTest {
-        val ctx = stubContext(DskCommand.READ, DskStubs.DB_ERROR)
+        val ctx = stubContext(DskCommand.DELETE, DskStubs.DB_ERROR)
 
         processor.exec(ctx)
 
@@ -49,7 +60,7 @@ class TrnReadStubTest {
 
     @Test
     fun badNoCase() = runTest {
-        val ctx = stubContext(DskCommand.READ, DskStubs.BAD_FIELD)
+        val ctx = stubContext(DskCommand.DELETE, DskStubs.BAD_FIELD)
 
         processor.exec(ctx)
 

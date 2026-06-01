@@ -34,6 +34,7 @@ dependencies {
     implementation(projects.okCoachdeskApiV1Mapper)
     implementation(projects.okCoachdeskRepoInmemory)
     implementation(projects.okCoachdeskRepoCommon)
+    implementation(projects.okCoachdeskRepoStub)
     implementation("ru.otus.kotlin.coachdesk.libs:ok-coachdesk-libs-logging-logback")
 
 
@@ -43,3 +44,4 @@ dependencies {
 }
 
 tasks.register("prepareKotlinBuildScriptModel"){}
+tasks.register("prepareKotlinIdeaImport"){}

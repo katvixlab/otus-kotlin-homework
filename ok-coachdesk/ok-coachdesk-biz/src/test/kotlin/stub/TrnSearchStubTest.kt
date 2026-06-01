@@ -1,3 +1,6 @@
+package stub
+
+import DskStub
 import kotlinx.coroutines.test.runTest
 import models.DskCommand
 import models.DskTrn
@@ -18,7 +21,7 @@ class TrnSearchStubTest {
 
         assertSuccess(ctx)
         assertEquals(6, ctx.trnsResponse.size)
-        assertEquals(StubTestData.clientFullName, ctx.trnsResponse.first().planNotes)
+        assertEquals(DskStub.get().clientFullName, ctx.trnsResponse.first().clientFullName)
     }
 
     @Test

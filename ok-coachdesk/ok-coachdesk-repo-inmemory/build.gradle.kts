@@ -3,8 +3,15 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":ok-coachdesk-common"))
-    implementation(project(":ok-coachdesk-repo-common"))
     implementation(libs.coroutines.core)
     implementation(libs.db.cache4k)
+
+    implementation(projects.okCoachdeskCommon)
+    implementation(projects.okCoachdeskRepoCommon)
+    implementation(projects.okCoachdeskRepoTests)
+}
+
+tasks.test {
+    useJUnit()
+    setScanForTestClasses(false)
 }

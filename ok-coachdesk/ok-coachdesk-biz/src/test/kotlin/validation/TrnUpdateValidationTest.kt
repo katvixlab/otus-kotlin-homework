@@ -1,15 +1,21 @@
+package validation
+
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.DskCommand
 import models.DskTrnId
-import ru.otus.kotlin.coachdesk.biz.DskProcessor
+import stub.StubTestData
+import stub.assertValidationError
+import stub.assertValidationSuccess
+import stub.validationContext
+import stub.validationProcessor
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.minutes
 
 class TrnUpdateValidationTest {
 
-    private val processor = DskProcessor()
+    private val processor = validationProcessor()
 
     @Test
     fun successWithPastStartsAt() = runTest {

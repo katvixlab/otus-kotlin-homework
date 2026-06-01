@@ -1,5 +1,6 @@
 package ok.coachdesk.app.plugins
 
+import TrnRepoStub
 import DskCorSettings
 import TrnRepoInMemory
 import io.ktor.server.application.Application
@@ -9,7 +10,7 @@ import ru.otus.kotlin.coachdesk.biz.DskProcessor
 fun Application.initAppSettings(): DskAppSettings{
     val corSettings = DskCorSettings(
         loggerProvider = getLoggerProviderConf(),
-        repoStub = TrnRepoInMemory(),
+        repoStub = TrnRepoStub(),
         repoTest = TrnRepoInMemory(),
         repoProd = TrnRepoInMemory(),
     )

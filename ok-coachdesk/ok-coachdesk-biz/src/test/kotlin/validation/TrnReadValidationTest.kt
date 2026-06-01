@@ -1,14 +1,20 @@
+package validation
+
 import kotlinx.coroutines.test.runTest
 import models.DskCommand
 import models.DskTrn
 import models.DskTrnId
-import ru.otus.kotlin.coachdesk.biz.DskProcessor
+import stub.StubTestData
+import stub.assertValidationError
+import stub.assertValidationSuccess
+import stub.validationContext
+import stub.validationProcessor
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class TrnReadValidationTest {
 
-    private val processor = DskProcessor()
+    private val processor = validationProcessor()
 
     @Test
     fun success() = runTest {

@@ -2,7 +2,8 @@ package models
 
 import java.util.UUID
 
-class DskTrnId(private val id: UUID) {
+@JvmInline
+value class DskTrnId(private val id: UUID) {
     fun get() = id
     fun asString(): String = id.toString()
 

@@ -19,7 +19,7 @@ fun ICorChainDsl<DskContext>.stubSearchSuccess(title: String, corSettings: DskCo
     handle {
         logger.doWithLogging(id = requestId.asString(), LogLevel.DEBUG) {
             state = DskState.FINISHED
-            trnsResponse = DskStub.prepareListDskTrn(trnFilterRequest.clientFullName).toMutableList()
+            trnsResponse = DskStub.prepareListDskTrn().toMutableList()
         }
     }
 }
