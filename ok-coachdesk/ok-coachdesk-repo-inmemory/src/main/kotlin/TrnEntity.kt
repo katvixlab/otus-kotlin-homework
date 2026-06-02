@@ -13,7 +13,8 @@ data class TrnEntity(
     val planNotes: String? = null,
     val resultNotes: String? = null,
     val status: String? = null,
-    val paymentStatus: String? = null
+    val paymentStatus: String? = null,
+    val lock: String? = null
 ) {
     constructor(model: DskTrn) : this(
         trnId = model.trnId.takeIf { it != DskTrnId.NONE }?.asString(),
@@ -27,6 +28,7 @@ data class TrnEntity(
         resultNotes = model.resultNotes.takeIf { it.isNotBlank() },
         status = model.status.takeIf { it != DskTrnStatus.NONE }?.name,
         paymentStatus = model.paymentStatus.takeIf { it != DskTrnPaymentStatus.NONE }?.name,
+        lock = model.lock.takeIf { it != DskTrnLock.NONE }?.asString()
     )
 
     fun toInternal(): DskTrn = DskTrn(
@@ -41,6 +43,7 @@ data class TrnEntity(
         resultNotes = resultNotes ?: "",
         status = status?.let { DskTrnStatus.valueOf(it) } ?: DskTrnStatus.NONE,
         paymentStatus = paymentStatus?.let { DskTrnPaymentStatus.valueOf(it) } ?: DskTrnPaymentStatus.NONE,
+        lock = lock?.let { DskTrnLock(it) } ?: DskTrnLock.NONE
     )
 
 }

@@ -5,7 +5,7 @@ class TrnRepositoryMock(
     private val invokeCreateTrn: (DbTrnRequest) -> IDbTrnResponse = { DEFAULT_TRN_SUCCESS_EMPTY_MOCK },
     private val invokeReadTrn: (DbTrnIdRequest) -> IDbTrnResponse = { DEFAULT_TRN_SUCCESS_EMPTY_MOCK },
     private val invokeUpdateTrn: (DbTrnRequest) -> IDbTrnResponse = { DEFAULT_TRN_SUCCESS_EMPTY_MOCK },
-    private val invokeDeleteTrn: (DbTrnIdRequest) -> IDbTrnResponse = { DEFAULT_TRN_SUCCESS_EMPTY_MOCK },
+    private val invokeDeleteTrn: (DbTrnRequest) -> IDbTrnResponse = { DEFAULT_TRN_SUCCESS_EMPTY_MOCK },
     private val invokeSearchTrn: (DbTrnFilterRequest) -> IDbTrnsResponse = { DEFAULT_TRNS_SUCCESS_EMPTY_MOCK },
 ) : IRepoTrn {
     override suspend fun readTrn(req: DbTrnIdRequest): IDbTrnResponse {
@@ -16,7 +16,7 @@ class TrnRepositoryMock(
         return invokeCreateTrn(req)
     }
 
-    override suspend fun deleteTrn(req: DbTrnIdRequest): IDbTrnResponse {
+    override suspend fun deleteTrn(req: DbTrnRequest): IDbTrnResponse {
         return invokeDeleteTrn(req)
     }
 

@@ -194,6 +194,8 @@ components:
         - $ref: '#/components/schemas/TrnRequestDebug'
         - type: object
           properties:
+            lock:
+              $ref: '#/components/schemas/TrnLock'
             trn:
               $ref: '#/components/schemas/TrnWithIdRequestObject'
 
@@ -213,6 +215,8 @@ components:
         - $ref: '#/components/schemas/TrnRequestDebug'
         - type: object
           properties:
+            lock:
+              $ref: '#/components/schemas/TrnLock'
             trn:
               $ref: '#/components/schemas/IdTrn'
 
@@ -272,6 +276,8 @@ components:
             trnId:
               type: string
               format: uuid
+            lock:
+              $ref: '#/components/schemas/TrnLock'
         - $ref: '#/components/schemas/BaseTrn'
 
     TrnRequestObject:
@@ -321,6 +327,9 @@ components:
           type: string
           format: uuid
           description: Идентификатор тренировки
+    TrnLock:
+      type: string
+      description: Версия оптимистичной блокировки
 
 
     IdDskTrn:

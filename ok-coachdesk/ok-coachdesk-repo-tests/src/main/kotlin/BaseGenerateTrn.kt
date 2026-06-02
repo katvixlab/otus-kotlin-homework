@@ -3,6 +3,7 @@ import models.DskClientId
 import models.DskCoachId
 import models.DskTrn
 import models.DskTrnId
+import models.DskTrnLock
 import models.DskTrnPaymentStatus
 import models.DskTrnStatus
 import models.DskTrnType
@@ -26,6 +27,7 @@ abstract class BaseGenerateTrn(private val command: String): IGenerateObjects<Ds
         planNotes = "plane",
         resultNotes = "result",
         status = status,
-        paymentStatus = paymentStatus
+        paymentStatus = paymentStatus,
+        lock = DskTrnLock("lock")
     )
 }

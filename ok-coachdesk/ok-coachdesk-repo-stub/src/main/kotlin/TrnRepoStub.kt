@@ -7,7 +7,7 @@ import repo.IDbTrnResponse
 import repo.IDbTrnsResponse
 import repo.IRepoTrn
 
-class TrnRepoStub() : IRepoTrn {
+class TrnRepoStub : IRepoTrn {
     override suspend fun readTrn(req: DbTrnIdRequest): IDbTrnResponse {
         return DbTrnResponseOk(
             data = DskStub.get()
@@ -20,7 +20,7 @@ class TrnRepoStub() : IRepoTrn {
         )
     }
 
-    override suspend fun deleteTrn(req: DbTrnIdRequest): IDbTrnResponse {
+    override suspend fun deleteTrn(req: DbTrnRequest): IDbTrnResponse {
         return DbTrnResponseOk(
             data = DskStub.get()
         )

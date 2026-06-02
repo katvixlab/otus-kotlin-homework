@@ -10,6 +10,7 @@ import ru.otus.kotlin.coachdesk.biz.general.initStatus
 import ru.otus.kotlin.coachdesk.biz.general.operation
 import ru.otus.kotlin.coachdesk.biz.general.stubs
 import ru.otus.kotlin.coachdesk.biz.general.validation
+import ru.otus.kotlin.coachdesk.biz.repo.checkLock
 import ru.otus.kotlin.coachdesk.biz.repo.initRepo
 import ru.otus.kotlin.coachdesk.biz.repo.prepareResult
 import ru.otus.kotlin.coachdesk.biz.repo.repoCreate
@@ -169,6 +170,7 @@ class DskProcessor(
             chain {
                 title = "Логика сохранения"
                 repoRead("Чтение объявления из БД")
+                checkLock("Проверяем консистентность по оптимистичной блокировке")
                 repoPrepareUpdate("Подготовка объекта для обновления")
                 repoUpdate("Обновление объявления в БД")
             }
@@ -193,6 +195,7 @@ class DskProcessor(
             chain {
                 title = "Логика удаления"
                 repoRead("Чтение объявления из БД")
+                checkLock("Проверяем консистентность по оптимистичной блокировке")
                 repoPrepareDelete("Подготовка объекта для удаления")
                 repoDelete("Удаление объявления из БД")
             }

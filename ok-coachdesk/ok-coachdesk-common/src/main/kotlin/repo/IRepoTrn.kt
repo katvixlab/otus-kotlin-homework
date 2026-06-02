@@ -3,7 +3,7 @@ package repo
 interface IRepoTrn {
     suspend fun readTrn(req: DbTrnIdRequest): IDbTrnResponse
     suspend fun createTrn(req: DbTrnRequest): IDbTrnResponse
-    suspend fun deleteTrn(req: DbTrnIdRequest): IDbTrnResponse
+    suspend fun deleteTrn(req: DbTrnRequest): IDbTrnResponse
     suspend fun updateTrn(req: DbTrnRequest): IDbTrnResponse
     suspend fun searchTrn(req: DbTrnFilterRequest): IDbTrnsResponse
 
@@ -15,7 +15,7 @@ interface IRepoTrn {
             override suspend fun createTrn(req: DbTrnRequest): IDbTrnResponse =
                 errorDbRepoNotImplemented
 
-            override suspend fun deleteTrn(req: DbTrnIdRequest): IDbTrnResponse =
+            override suspend fun deleteTrn(req: DbTrnRequest): IDbTrnResponse =
                 errorDbRepoNotImplemented
 
             override suspend fun updateTrn(req: DbTrnRequest): IDbTrnResponse =

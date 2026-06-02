@@ -1,6 +1,6 @@
 class TrnRepoInMemoryCreateTest : RepoTrnCreateTest() {
     override val repo = TrnRepoInitialized(
-        TrnRepoInMemory(randomUuid = { uuid.asString() }),
+        TrnRepoInMemory(randomId = { uuid.asString() }),
         initObjects = initObjects,
     )
 }
@@ -14,7 +14,7 @@ class TrnRepoInMemoryReadTest : RepoTrnReadTest() {
 
 class TrnRepoInMemoryUpdateTest : RepoTrnUpdateTest() {
     override val repo = TrnRepoInitialized(
-        TrnRepoInMemory(),
+        TrnRepoInMemory(randomLock = {"lock"}),
         initObjects = initObjects,
     )
 }

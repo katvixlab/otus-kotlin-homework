@@ -105,6 +105,7 @@ private fun DskTrn.toTransportTrn(): TrnResponseObject? = takeUnless { it.isEmpt
         resultNotes = it.resultNotes.takeIf(String::isNotBlank),
         status = it.status.toTransportStatus(),
         paymentStatus = it.paymentStatus.toTransportPaymentStatus(),
+        lock = it.lock.asString()
     )
 }
 

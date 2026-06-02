@@ -21,11 +21,14 @@ import ru.otus.kotlin.coachdesk.api.v1.models.IResponse
 import ru.otus.kotlin.coachdesk.api.v1.models.RequestResult
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnCreateRequest
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnCreateResponse
+import ru.otus.kotlin.coachdesk.api.v1.models.TrnDebug
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnDeleteRequest
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnDeleteResponse
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnInitResponse
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnReadRequest
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnReadResponse
+import ru.otus.kotlin.coachdesk.api.v1.models.TrnRequestDebugMode
+import ru.otus.kotlin.coachdesk.api.v1.models.TrnRequestDebugStubs
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnSearchRequest
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnSearchResponse
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnUpdateRequest
@@ -38,6 +41,10 @@ class V1TrnStubWsTest {
     @Test
     fun create() {
         val request = TrnCreateRequest(
+            debug = TrnDebug(
+                mode = TrnRequestDebugMode.STUB,
+                stub = TrnRequestDebugStubs.SUCCESS
+            ),
             requestType = "create")
         v1WsTestApplication<IResponse>(request){
             assertEquals(RequestResult.SUCCESS, it.result)

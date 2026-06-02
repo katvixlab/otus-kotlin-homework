@@ -2,6 +2,7 @@ import models.DskTrn
 import models.DskTrnId
 import org.junit.Test
 import repo.DbTrnIdRequest
+import repo.DbTrnRequest
 import repo.DbTrnResponseErr
 import repo.DbTrnResponseOk
 import repo.IRepoTrn
@@ -15,20 +16,20 @@ abstract class RepoTrnDeleteTest {
 
     @Test
     fun deleteSuccess() = runRepoTest {
-        val result = repo.deleteTrn(DbTrnIdRequest(deleteSuccess.trnId))
+        val result = repo.deleteTrn(DbTrnRequest(deleteSuccess))
         assertIs<DbTrnResponseOk>(result)
         assertEquals(deleteSuccess, result.data)
     }
 
     @Test
     fun deleteNotFound() = runRepoTest {
-        val result = repo.deleteTrn(DbTrnIdRequest(notFound))
+        val result = repo.deleteTrn(DbTrnRequest(DskTrn(trnId = notFound)))
         assertIs<DbTrnResponseErr>(result)
     }
 
     @Test
     fun deleteEmptyId() = runRepoTest {
-        val result = repo.deleteTrn(DbTrnIdRequest(DskTrnId.NONE))
+        val result = repo.deleteTrn(DbTrnRequest(DskTrn()))
         assertIs<DbTrnResponseErr>(result)
     }
 

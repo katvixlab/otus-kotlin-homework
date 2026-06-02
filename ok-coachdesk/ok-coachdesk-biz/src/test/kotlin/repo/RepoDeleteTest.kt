@@ -18,8 +18,7 @@ class RepoDeleteTest {
 
     private val uuid = UUID.fromString("12345678-1111-1234-0000-0000000000")
     private val expected = DskTrn(
-        trnId = DskTrnId(uuid),
-        clientFullName = "test test",
+        trnId = DskTrnId(uuid)
     )
     private val repo = TrnRepositoryMock(
         invokeReadTrn = {
@@ -27,7 +26,7 @@ class RepoDeleteTest {
             DbTrnResponseOk(expected)
         },
         invokeDeleteTrn = {
-            assertEquals(DskTrnId(uuid), it.trnId)
+            assertEquals(expected, it.trn)
             DbTrnResponseOk(expected)
         },
     )

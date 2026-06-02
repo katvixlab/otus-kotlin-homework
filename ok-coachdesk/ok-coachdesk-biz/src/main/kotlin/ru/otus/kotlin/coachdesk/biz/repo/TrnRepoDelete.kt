@@ -4,6 +4,7 @@ import DskContext
 import helpers.fail
 import models.DskState
 import repo.DbTrnIdRequest
+import repo.DbTrnRequest
 import repo.DbTrnResponseErr
 import repo.DbTrnResponseErrWithData
 import repo.DbTrnResponseOk
@@ -15,7 +16,7 @@ fun ICorChainDsl<DskContext>.repoDelete(title: String) = worker {
     description = "Удаление объявления из БД по ID"
     on { state == DskState.PROCESSING }
     handle {
-        val request = DbTrnIdRequest(trnRepoPrepare)
+        val request = DbTrnRequest(trnRepoPrepare)
         when (val result = trnRepo.deleteTrn(request)) {
             is DbTrnResponseOk -> trnRepoDone = result.data
             is DbTrnResponseErr -> {

@@ -10,7 +10,8 @@ import kotlin.time.Duration.Companion.minutes
 
 class TrnRepoInMemory(
     ttl: Duration = 10.minutes,
-    val randomUuid: () -> String = { UUID.randomUUID().toString() }
+    val randomId: () -> String = { UUID.randomUUID().toString() },
+    val randomLock: () -> String = { UUID.randomUUID().toString() }
 ) : TrnRepoBase(), IRepoTrn, IRepoTrnInitializable {
 
     private val mutex = Mutex()
@@ -29,8 +30,9 @@ class TrnRepoInMemory(
     }
 
     override suspend fun createTrn(req: DbTrnRequest): IDbTrnResponse = tryTrnMethod {
-        val id = randomUuid()
-        val dskTrn = req.trn.copy(trnId = DskTrnId(id))
+        val id = randomId()
+        val key = randomId()
+        val dskTrn = req.trn.copy(trnId = DskTrnId(id), lock = DskTrnLock(key))
         val trnEntity = TrnEntity(dskTrn)
         mutex.withLock {
             cache.put(id, trnEntity)
@@ -38,15 +40,20 @@ class TrnRepoInMemory(
         DbTrnResponseOk(dskTrn)
     }
 
-    override suspend fun deleteTrn(req: DbTrnIdRequest) = tryTrnMethod {
-        val id = req.trnId.takeIf { it != DskTrnId.NONE } ?: return@tryTrnMethod errorEmptyId
+    override suspend fun deleteTrn(req: DbTrnRequest) = tryTrnMethod {
+        val dskTrn = req.trn
+        val id = dskTrn.trnId.takeIf { it != DskTrnId.NONE } ?: return@tryTrnMethod errorEmptyId
+        val lock = dskTrn.lock.takeIf { it != DskTrnLock.NONE } ?: return@tryTrnMethod errorEmptyLock(id)
         mutex.withLock {
             val trn = cache.get(id.asString())?.toInternal()
-            if (trn == null) {
-                errorNotFound(id)
-            } else {
-                cache.invalidate(id.asString())
-                DbTrnResponseOk(trn)
+            when {
+                trn == null -> errorNotFound(id)
+                lock == DskTrnLock.NONE -> errorEmptyLock(id)
+                trn.lock != lock -> errorRepoConcurrency(dskTrn, trn.lock)
+                else -> {
+                    cache.invalidate(id.asString())
+                    DbTrnResponseOk(trn)
+                }
             }
         }
     }
@@ -54,14 +61,18 @@ class TrnRepoInMemory(
     override suspend fun updateTrn(req: DbTrnRequest) = tryTrnMethod {
         val dskTrn = req.trn
         val id = dskTrn.trnId.takeIf { it != DskTrnId.NONE } ?: return@tryTrnMethod errorEmptyId
+        val lock = dskTrn.lock.takeIf { it != DskTrnLock.NONE } ?: return@tryTrnMethod errorEmptyLock(id)
         mutex.withLock {
             val existTrn = cache.get(id.asString())?.toInternal()
-            if (existTrn == null) {
-                errorNotFound(id)
-            } else {
-                val newTrn = TrnEntity(dskTrn.copy())
-                cache.put(id.asString(), newTrn)
-                DbTrnResponseOk(newTrn.toInternal())
+            when {
+                existTrn == null -> errorNotFound(id)
+                existTrn.lock == DskTrnLock.NONE -> errorEmptyLock(id)
+                existTrn.lock != lock -> errorRepoConcurrency(existTrn, existTrn.lock)
+                else -> {
+                    val newTrn = TrnEntity(dskTrn.copy(lock = DskTrnLock(randomLock())))
+                    cache.put(id.asString(), newTrn)
+                    DbTrnResponseOk(newTrn.toInternal())
+                }
             }
         }
     }

@@ -1,5 +1,6 @@
 package ru.otus.kotlin.coachdesk.app.ktor.stub
 
+import NONE
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.client.call.*
@@ -10,18 +11,27 @@ import io.ktor.http.*
 import io.ktor.serialization.jackson.*
 
 import io.ktor.server.testing.*
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import ok.coachdesk.app.DskAppSettings
 import ok.coachdesk.app.moduleApp
 import org.junit.Test
 import ru.otus.kotlin.coachdesk.api.v1.models.IRequest
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnCreateRequest
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnCreateResponse
+import ru.otus.kotlin.coachdesk.api.v1.models.TrnDebug
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnDeleteRequest
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnDeleteResponse
+import ru.otus.kotlin.coachdesk.api.v1.models.TrnFilter
+import ru.otus.kotlin.coachdesk.api.v1.models.TrnPaymentStatus
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnReadRequest
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnReadResponse
+import ru.otus.kotlin.coachdesk.api.v1.models.TrnRequestDebugMode
+import ru.otus.kotlin.coachdesk.api.v1.models.TrnRequestDebugStubs
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnSearchRequest
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnSearchResponse
+import ru.otus.kotlin.coachdesk.api.v1.models.TrnStatus
+import ru.otus.kotlin.coachdesk.api.v1.models.TrnType
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnUpdateRequest
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnUpdateResponse
 import kotlin.test.assertEquals
@@ -32,6 +42,10 @@ class V1TrnStubApiTest {
     fun create() = v1RestTestApplication(
         path = "create",
         request = TrnCreateRequest(
+            debug = TrnDebug(
+                mode = TrnRequestDebugMode.STUB,
+                stub = TrnRequestDebugStubs.SUCCESS
+            ),
             requestType = "create",
         )
     ) { response ->
@@ -44,6 +58,10 @@ class V1TrnStubApiTest {
     fun read() = v1RestTestApplication(
         path = "read",
         request = TrnReadRequest(
+            debug = TrnDebug(
+                mode = TrnRequestDebugMode.STUB,
+                stub = TrnRequestDebugStubs.SUCCESS
+            ),
             requestType = "read",
         )
     ) { response ->
@@ -56,6 +74,10 @@ class V1TrnStubApiTest {
     fun update() = v1RestTestApplication(
         path = "update",
         request = TrnUpdateRequest(
+            debug = TrnDebug(
+                mode = TrnRequestDebugMode.STUB,
+                stub = TrnRequestDebugStubs.SUCCESS
+            ),
             requestType = "update",
         )
     ) { response ->
@@ -68,6 +90,10 @@ class V1TrnStubApiTest {
     fun delete() = v1RestTestApplication(
         path = "delete",
         request = TrnDeleteRequest(
+            debug = TrnDebug(
+                mode = TrnRequestDebugMode.STUB,
+                stub = TrnRequestDebugStubs.SUCCESS
+            ),
             requestType = "delete",
         )
     ) { response ->
@@ -80,6 +106,10 @@ class V1TrnStubApiTest {
     fun search() = v1RestTestApplication(
         path = "search",
         request = TrnSearchRequest(
+            debug = TrnDebug(
+                mode = TrnRequestDebugMode.STUB,
+                stub = TrnRequestDebugStubs.SUCCESS
+            ),
             requestType = "search",
         )
     ) { response ->
@@ -109,6 +139,7 @@ class V1TrnStubApiTest {
             contentType(ContentType.Application.Json)
             setBody(request)
         }
+        print(responses)
         function(responses)
     }
 

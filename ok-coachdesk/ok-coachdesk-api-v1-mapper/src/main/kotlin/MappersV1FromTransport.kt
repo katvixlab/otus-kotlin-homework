@@ -20,7 +20,7 @@ fun DskContext.from(request: TrnCreateRequest) {
     command = DskCommand.CREATE
     workMode = request.debug.toContextWorkMode()
     stubCase = request.debug.toContextStubCase()
-    trnRequest = request.trn?.toInternal() ?: DskTrn()
+    trnRequest = request.toInternal()
 
 }
 
@@ -28,26 +28,28 @@ fun DskContext.from(request: TrnDeleteRequest) {
     command = DskCommand.DELETE
     workMode = request.debug.toContextWorkMode()
     stubCase = request.debug.toContextStubCase()
-    trnRequest = request.trn?.toInternal() ?: DskTrn()
+    trnRequest = request.toInternal()
 }
 
 fun DskContext.from(request: TrnReadRequest) {
     command = DskCommand.READ
     workMode = request.debug.toContextWorkMode()
     stubCase = request.debug.toContextStubCase()
-    trnRequest = request.trn?.toInternal() ?: DskTrn()
+    trnRequest = request.toInternal()
 }
 
 fun DskContext.from(request: TrnSearchRequest) {
     command = DskCommand.SEARCH
-    trnFilterRequest = request.trnFilter?.toInternal() ?: DskTrnFilter()
+    workMode = request.debug.toContextWorkMode()
+    stubCase = request.debug.toContextStubCase()
+    trnFilterRequest = request.toInternal()
 }
 
 fun DskContext.from(request: TrnUpdateRequest) {
     command = DskCommand.UPDATE
     workMode = request.debug.toContextWorkMode()
     stubCase = request.debug.toContextStubCase()
-    trnRequest = request.trn?.toInternal() ?: DskTrn()
+    trnRequest = request.toInternal()
 }
 
 private fun TrnDebug?.toContextWorkMode() = when (this?.mode) {
@@ -71,32 +73,33 @@ private fun TrnDebug?.toContextStubCase() = when (this?.stub) {
     null -> DskStubs.NONE
 }
 
-private fun TrnRequestObject.toInternal(): DskTrn = DskTrn(
+private fun TrnCreateRequest.toInternal(): DskTrn = DskTrn(
     trnId = DskTrnId.NONE,
-    coachId = this.coachId?.let { DskCoachId(it) } ?: DskCoachId.NONE,
-    clientId = this.clientId?.let { DskClientId(it) } ?: DskClientId.NONE,
-    clientFullName = this.clientFullName ?: "",
-    startsAt = this.startsAt?.let { Instant.parse(it) } ?: Instant.NONE,
-    durationMin = this.durationMin?.let { parseInt(it) }?.minutes ?: Duration.ZERO,
-    type = this.type?.toInternal() ?: DskTrnType.NONE,
-    planNotes = this.planNotes ?: "",
-    resultNotes = this.resultNotes ?: "",
-    status = this.status?.toInternal() ?: DskTrnStatus.NONE,
-    paymentStatus = this.paymentStatus?.toInternal() ?: DskTrnPaymentStatus.NONE
+    coachId = this.trn?.coachId?.let { DskCoachId(it) } ?: DskCoachId.NONE,
+    clientId = this.trn?.clientId?.let { DskClientId(it) } ?: DskClientId.NONE,
+    clientFullName = this.trn?.clientFullName ?: "",
+    startsAt = this.trn?.startsAt?.let { Instant.parse(it) } ?: Instant.NONE,
+    durationMin = this.trn?.durationMin?.let { parseInt(it) }?.minutes ?: Duration.ZERO,
+    type = this.trn?.type?.toInternal() ?: DskTrnType.NONE,
+    planNotes = this.trn?.planNotes ?: "",
+    resultNotes = this.trn?.resultNotes ?: "",
+    status = this.trn?.status?.toInternal() ?: DskTrnStatus.NONE,
+    paymentStatus = this.trn?.paymentStatus?.toInternal() ?: DskTrnPaymentStatus.NONE,
 )
 
-private fun TrnWithIdRequestObject.toInternal(): DskTrn = DskTrn(
-    trnId = this.trnId?.let { DskTrnId(it) } ?: DskTrnId.NONE,
-    coachId = this.coachId?.let { DskCoachId(it) } ?: DskCoachId.NONE,
-    clientId = this.clientId?.let { DskClientId(it) } ?: DskClientId.NONE,
-    clientFullName = this.clientFullName ?: "",
-    startsAt = this.startsAt?.let { Instant.parse(it) } ?: Instant.NONE,
-    durationMin = this.durationMin?.let { parseInt(it) }?.minutes ?: Duration.ZERO,
-    type = this.type?.toInternal() ?: DskTrnType.NONE,
-    planNotes = this.planNotes ?: "",
-    resultNotes = this.resultNotes ?: "",
-    status = this.status?.toInternal() ?: DskTrnStatus.NONE,
-    paymentStatus = this.paymentStatus?.toInternal() ?: DskTrnPaymentStatus.NONE
+private fun TrnUpdateRequest.toInternal(): DskTrn = DskTrn(
+    trnId = this.trn?.trnId?.let { DskTrnId(it) } ?: DskTrnId.NONE,
+    coachId = this.trn?.coachId?.let { DskCoachId(it) } ?: DskCoachId.NONE,
+    clientId = this.trn?.clientId?.let { DskClientId(it) } ?: DskClientId.NONE,
+    clientFullName = this.trn?.clientFullName ?: "",
+    startsAt = this.trn?.startsAt?.let { Instant.parse(it) } ?: Instant.NONE,
+    durationMin = this.trn?.durationMin?.let { parseInt(it) }?.minutes ?: Duration.ZERO,
+    type = this.trn?.type?.toInternal() ?: DskTrnType.NONE,
+    planNotes = this.trn?.planNotes ?: "",
+    resultNotes = this.trn?.resultNotes ?: "",
+    status = this.trn?.status?.toInternal() ?: DskTrnStatus.NONE,
+    paymentStatus = this.trn?.paymentStatus?.toInternal() ?: DskTrnPaymentStatus.NONE,
+    lock = this.lock?.let { DskTrnLock(it) } ?: DskTrnLock.NONE,
 )
 
 private fun TrnType.toInternal(): DskTrnType = when (this) {
@@ -119,19 +122,19 @@ private fun TrnPaymentStatus.toInternal(): DskTrnPaymentStatus = when (this) {
     TrnPaymentStatus.UNPAID -> DskTrnPaymentStatus.UNPAID
 }
 
-private fun IdTrn.toInternal(): DskTrn = DskTrn(
-    trnId = this.trnId?.let { DskTrnId(it) } ?: DskTrnId.NONE,
+private fun TrnDeleteRequest.toInternal(): DskTrn = DskTrn(
+    trnId = this.trn?.trnId?.let { DskTrnId(it) } ?: DskTrnId.NONE,
+    lock = this.lock?.let { DskTrnLock(it) } ?: DskTrnLock.NONE,
 )
 
-private fun IdDskTrn.toInternal(): DskTrn = DskTrn(
-    coachId = this.coachId?.let { DskCoachId(it) } ?: DskCoachId.NONE,
-    clientId = this.clientId?.let { DskClientId(it) } ?: DskClientId.NONE,
+private fun TrnReadRequest.toInternal(): DskTrn = DskTrn(
+    trnId = this.trn?.trnId?.let { DskTrnId(it) } ?: DskTrnId.NONE,
 )
 
-private fun TrnFilter.toInternal(): DskTrnFilter = DskTrnFilter(
-    clientFullName = this.clientFullName ?: "",
-    startsAt = this.startsAt?.let { Instant.parse(it) } ?: Instant.NONE,
-    type = this.type?.toInternal() ?: DskTrnType.NONE,
-    status = this.status?.toInternal() ?: DskTrnStatus.NONE,
-    paymentStatus = this.paymentStatus?.toInternal() ?: DskTrnPaymentStatus.NONE,
+private fun TrnSearchRequest.toInternal(): DskTrnFilter = DskTrnFilter(
+    clientFullName = this.trnFilter?.clientFullName ?: "",
+    startsAt = this.trnFilter?.startsAt?.let { Instant.parse(it) } ?: Instant.NONE,
+    type = this.trnFilter?.type?.toInternal() ?: DskTrnType.NONE,
+    status = this.trnFilter?.status?.toInternal() ?: DskTrnStatus.NONE,
+    paymentStatus = this.trnFilter?.paymentStatus?.toInternal() ?: DskTrnPaymentStatus.NONE,
 )
