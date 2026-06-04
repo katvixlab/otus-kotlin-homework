@@ -8,3 +8,16 @@ ktor:
   application:
     modules:
       - ok.coachdesk.app.ApplicationKt.moduleApp
+
+coachdesk:
+  repository:
+    test: "inmemory"
+    prod: "$DB_TYPE_PROD:postgres"
+
+    psql:
+      schema: public
+      database: "$COACHDSK_DB:coachdesk"
+      host: "$COACHDSK_HOST:localhost"
+      port: "$COACHDSK_PORT:5556"
+      user: "$COACHDSK_USER:postgres"
+      password: "$COACHDSK_PASS:password"
