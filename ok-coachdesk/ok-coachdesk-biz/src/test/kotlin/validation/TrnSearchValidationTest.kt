@@ -4,6 +4,7 @@ import NONE
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.DskCommand
+import models.DskTrnFilter
 import models.DskTrnPaymentStatus
 import models.DskTrnStatus
 import models.DskTrnType
@@ -33,43 +34,47 @@ class TrnSearchValidationTest {
     }
 
     @Test
-    fun emptyClientFullName() = runTest {
+    fun emptyClientFullNameAllowed() = runTest {
         val ctx = validationContext(DskCommand.SEARCH, filter = StubTestData.filter.copy(clientFullName = "   "))
 
         processor.exec(ctx)
 
-        assertValidationError(ctx, "clientFullName", "empty")
+        assertValidationSuccess(ctx)
+        assertEquals("", ctx.trnFilterValidated.clientFullName)
     }
 
     @Test
-    fun emptyStartsAt() = runTest {
+    fun emptyStartsAtAllowed() = runTest {
         val ctx = validationContext(DskCommand.SEARCH, filter = StubTestData.filter.copy(startsAt = Instant.NONE))
 
         processor.exec(ctx)
 
-        assertValidationError(ctx, "startsAt", "empty")
+        assertValidationSuccess(ctx)
+        assertEquals(Instant.NONE, ctx.trnFilterValidated.startsAt)
     }
 
     @Test
-    fun emptyType() = runTest {
+    fun emptyTypeAllowed() = runTest {
         val ctx = validationContext(DskCommand.SEARCH, filter = StubTestData.filter.copy(type = DskTrnType.NONE))
 
         processor.exec(ctx)
 
-        assertValidationError(ctx, "type", "empty")
+        assertValidationSuccess(ctx)
+        assertEquals(DskTrnType.NONE, ctx.trnFilterValidated.type)
     }
 
     @Test
-    fun emptyStatus() = runTest {
+    fun emptyStatusAllowed() = runTest {
         val ctx = validationContext(DskCommand.SEARCH, filter = StubTestData.filter.copy(status = DskTrnStatus.NONE))
 
         processor.exec(ctx)
 
-        assertValidationError(ctx, "status", "empty")
+        assertValidationSuccess(ctx)
+        assertEquals(DskTrnStatus.NONE, ctx.trnFilterValidated.status)
     }
 
     @Test
-    fun emptyPaymentStatus() = runTest {
+    fun emptyPaymentStatusAllowed() = runTest {
         val ctx = validationContext(
             DskCommand.SEARCH,
             filter = StubTestData.filter.copy(paymentStatus = DskTrnPaymentStatus.NONE)
@@ -77,6 +82,16 @@ class TrnSearchValidationTest {
 
         processor.exec(ctx)
 
-        assertValidationError(ctx, "paymentStatus", "empty")
+        assertValidationSuccess(ctx)
+        assertEquals(DskTrnPaymentStatus.NONE, ctx.trnFilterValidated.paymentStatus)
+    }
+
+    @Test
+    fun emptyFilter() = runTest {
+        val ctx = validationContext(DskCommand.SEARCH, filter = DskTrnFilter())
+
+        processor.exec(ctx)
+
+        assertValidationError(ctx, "all", "empty")
     }
 }

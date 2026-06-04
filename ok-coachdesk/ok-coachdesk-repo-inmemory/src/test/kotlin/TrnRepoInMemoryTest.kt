@@ -1,34 +1,40 @@
-class TrnRepoInMemoryCreateTest : RepoTrnCreateTest() {
-    override val repo = TrnRepoInitialized(
-        TrnRepoInMemory(randomId = { uuid.asString() }),
-        initObjects = initObjects,
-    )
-}
+import org.junit.experimental.runners.Enclosed
+import org.junit.runner.RunWith
 
-class TrnRepoInMemoryReadTest : RepoTrnReadTest() {
-    override val repo = TrnRepoInitialized(
-        TrnRepoInMemory(),
-        initObjects = initObjects,
-    )
-}
+@RunWith(Enclosed::class)
+class TrnRepoInMemoryTest {
+    class TrnRepoInMemoryCreateTest : RepoTrnCreateTest() {
+        override val repo = TrnRepoInitialized(
+            TrnRepoInMemory(randomId = { uuid.asString() }),
+            initObjects = initObjects,
+        )
+    }
 
-class TrnRepoInMemoryUpdateTest : RepoTrnUpdateTest() {
-    override val repo = TrnRepoInitialized(
-        TrnRepoInMemory(randomLock = {"lock"}),
-        initObjects = initObjects,
-    )
-}
+    class TrnRepoInMemoryReadTest : RepoTrnReadTest() {
+        override val repo = TrnRepoInitialized(
+            TrnRepoInMemory(),
+            initObjects = initObjects,
+        )
+    }
 
-class TrnRepoInMemoryDeleteTest : RepoTrnDeleteTest() {
-    override val repo = TrnRepoInitialized(
-        TrnRepoInMemory(),
-        initObjects = initObjects,
-    )
-}
+    class TrnRepoInMemoryUpdateTest : RepoTrnUpdateTest() {
+        override val repo = TrnRepoInitialized(
+            TrnRepoInMemory(randomLock = { "lock" }),
+            initObjects = initObjects,
+        )
+    }
 
-class TrnRepoInMemorySearchTest : RepoTrnSearchTest() {
-    override val repo = TrnRepoInitialized(
-        TrnRepoInMemory(),
-        initObjects = initObjects,
-    )
+    class TrnRepoInMemoryDeleteTest : RepoTrnDeleteTest() {
+        override val repo = TrnRepoInitialized(
+            TrnRepoInMemory(),
+            initObjects = initObjects,
+        )
+    }
+
+    class TrnRepoInMemorySearchTest : RepoTrnSearchTest() {
+        override val repo = TrnRepoInitialized(
+            TrnRepoInMemory(),
+            initObjects = initObjects,
+        )
+    }
 }

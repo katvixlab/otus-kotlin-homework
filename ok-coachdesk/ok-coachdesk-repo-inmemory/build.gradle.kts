@@ -10,8 +10,3 @@ dependencies {
     implementation(projects.okCoachdeskRepoCommon)
     implementation(projects.okCoachdeskRepoTests)
 }
-
-tasks.test {
-    useJUnit()
-    setScanForTestClasses(false)
-}

@@ -8,14 +8,12 @@ import org.junit.runner.RunWith
 import org.testcontainers.containers.PostgreSQLContainer
 import java.sql.DriverManager
 import kotlin.test.AfterTest
-import kotlin.test.Ignore
 
 
 @RunWith(Enclosed::class)
 class TrnRepoSqlTest {
 
-    @Ignore
-    companion object {
+    private companion object {
         private val postgres = PostgreSQLContainer("postgres:16-alpine")
         private var properties = runMigrations()
 
