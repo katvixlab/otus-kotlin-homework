@@ -13,6 +13,7 @@ import kotlin.time.Duration.Companion.minutes
 class TrnRepoSql(
     properties: SqlProperties,
     private val randomUuid: () -> UUID = UUID::randomUUID,
+    private val randomLock: () -> String = { UUID.randomUUID().toString() }
 ) : IRepoTrn, IRepoTrnInitializable {
     private val trnTable = TrnTable("${properties.schema}.${properties.table}")
 
@@ -31,7 +32,7 @@ class TrnRepoSql(
 
     private fun saveObj(trn: DskTrn): DskTrn = transaction(conn) {
         val trns = trnTable
-            .insert { it.to(trn, randomUuid) }
+            .insert { it.to(trn, randomUuid, randomLock) }
             .resultedValues
             ?.map { trnTable.from(it) }
         trns?.first() ?: throw RuntimeException("BD error: insert statement returned empty result")
@@ -59,7 +60,7 @@ class TrnRepoSql(
     override suspend fun updateTrn(req: DbTrnRequest): IDbTrnResponse =
         checkpoint(req.trn.trnId, req.trn.lock) {
             trnTable.updateReturning(where = { trnTable.id eq req.trn.trnId.get() }) {
-                it.to(req.trn.copy(lock = DskTrnLock(randomUuid().toString())), randomUuid)
+                it.to(req.trn.copy(lock = DskTrnLock(randomLock())), randomUuid, randomLock)
             }.singleOrNull()
                 ?.let { DbTrnResponseOk(trnTable.from(it)) }
                 ?: errorNotFound(req.trn.trnId)

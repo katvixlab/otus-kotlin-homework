@@ -35,7 +35,7 @@ class TrnTable(tableName: String) : Table(tableName) {
         lock = DskTrnLock(res[lock])
     )
 
-    fun UpdateBuilder<*>.to(trn: DskTrn, randomUuid: () -> UUID) {
+    fun UpdateBuilder<*>.to(trn: DskTrn, randomUuid: () -> UUID, randomLock: () -> String) {
         this[id] = trn.trnId.takeIf { it != DskTrnId.NONE }?.get() ?: randomUuid()
         this[coachId] = trn.coachId.takeIf { it != DskCoachId.NONE }?.get() ?: randomUuid()
         this[clientId] = trn.clientId.takeIf { it != DskClientId.NONE }?.get() ?: randomUuid()
@@ -47,7 +47,7 @@ class TrnTable(tableName: String) : Table(tableName) {
         this[trnType] = trn.type
         this[trnStatus] = trn.status
         this[trnPaymentStatus] = trn.paymentStatus
-        this[lock] = trn.lock.takeIf { it != DskTrnLock.NONE }?.asString() ?: randomUuid().toString()
+        this[lock] = trn.lock.takeIf { it != DskTrnLock.NONE }?.asString() ?: randomLock()
     }
 
     object SqlField {

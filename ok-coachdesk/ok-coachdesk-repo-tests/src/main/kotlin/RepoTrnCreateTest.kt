@@ -29,6 +29,7 @@ abstract class RepoTrnCreateTest {
     @Test
     fun createSuccess() = runRepoTest {
         val result = repo.createTrn(DbTrnRequest(createTrn))
+        println(result)
         val expected = createTrn.copy()
         assertIs<DbTrnResponseOk>(result)
         assertEquals(uuid, result.data.trnId)

@@ -216,11 +216,6 @@ class DskProcessor(
                     trnFilterValidating.clientFullName = trnFilterValidating.clientFullName.trim()
                 }
                 validateFilterNotEmpty("Проверяем что хотя бы одно поле в фильтре заполнено")
-                validateFilterClientFullNameNotEmpty("Проверяем что ФИО клиента в фильтре заполнено")
-                validateFilterStartsAtNotEmpty("Проверяем что время начала тренировки в фильтре заполнено")
-                validateFilterTypeNotEmpty("Проверяем что тип тренировки в фильтре заполнен")
-                validateFilterStatusNotEmpty("Проверяем что статус тренировки в фильтре заполнен")
-                validateFilterPaymentStatusNotEmpty("Проверяем что статус оплаты в фильтре заполнен")
                 finishTrnFilterValidation("Успешное завершение процедуры валидации фильтра")
             }
             repoSearch("Поиск объявления в БД по фильтру")
