@@ -92,6 +92,31 @@ class TrnSearchValidationTest {
 
         processor.exec(ctx)
 
-        assertValidationError(ctx, "all", "empty")
+        assertValidationSuccess(ctx)
+        assertEquals(DskTrnFilter(), ctx.trnFilterValidated)
+    }
+
+    @Test
+    fun badClientFullNameFormat() = runTest {
+        val ctx = validationContext(
+            command = DskCommand.SEARCH,
+            filter = StubTestData.filter.copy(clientFullName = "' OR 1=1 --"),
+        )
+
+        processor.exec(ctx)
+
+        assertValidationError(ctx, "clientFullName", "format")
+    }
+
+    @Test
+    fun clientFullNameWithControlChars() = runTest {
+        val ctx = validationContext(
+            command = DskCommand.SEARCH,
+            filter = StubTestData.filter.copy(clientFullName = "Иванов\nERROR"),
+        )
+
+        processor.exec(ctx)
+
+        assertValidationError(ctx, "clientFullName", "format")
     }
 }

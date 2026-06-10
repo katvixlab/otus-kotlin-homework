@@ -43,12 +43,7 @@ import ru.otus.kotlin.coachdesk.biz.validation.validateClientFullNameNotEmpty
 import ru.otus.kotlin.coachdesk.biz.validation.validateClientIdNotEmpty
 import ru.otus.kotlin.coachdesk.biz.validation.validateCoachIdNotEmpty
 import ru.otus.kotlin.coachdesk.biz.validation.validateDurationInRange
-import ru.otus.kotlin.coachdesk.biz.validation.validateFilterClientFullNameNotEmpty
-import ru.otus.kotlin.coachdesk.biz.validation.validateFilterNotEmpty
-import ru.otus.kotlin.coachdesk.biz.validation.validateFilterPaymentStatusNotEmpty
-import ru.otus.kotlin.coachdesk.biz.validation.validateFilterStartsAtNotEmpty
-import ru.otus.kotlin.coachdesk.biz.validation.validateFilterStatusNotEmpty
-import ru.otus.kotlin.coachdesk.biz.validation.validateFilterTypeNotEmpty
+import ru.otus.kotlin.coachdesk.biz.validation.validateFilterClientFullNameFormat
 import ru.otus.kotlin.coachdesk.biz.validation.validatePaymentStatusNotEmpty
 import ru.otus.kotlin.coachdesk.biz.validation.validatePlanNotesHasText
 import ru.otus.kotlin.coachdesk.biz.validation.validateResultNotesHasText
@@ -215,7 +210,7 @@ class DskProcessor(
                 worker("Очистка ФИО клиента в фильтре") {
                     trnFilterValidating.clientFullName = trnFilterValidating.clientFullName.trim()
                 }
-                validateFilterNotEmpty("Проверяем что хотя бы одно поле в фильтре заполнено")
+                validateFilterClientFullNameFormat("Проверяем формат ФИО клиента в фильтре")
                 finishTrnFilterValidation("Успешное завершение процедуры валидации фильтра")
             }
             repoSearch("Поиск объявления в БД по фильтру")
