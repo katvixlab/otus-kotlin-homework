@@ -34,6 +34,8 @@ data class DskTrn(
     var status: DskTrnStatus = DskTrnStatus.NONE,
 
     var paymentStatus: DskTrnPaymentStatus = DskTrnPaymentStatus.NONE,
+
+    var lock: DskTrnLock = DskTrnLock.NONE,
 ) {
 
     fun isEmpty() = this == NONE

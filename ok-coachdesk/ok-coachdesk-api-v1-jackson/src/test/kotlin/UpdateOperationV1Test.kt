@@ -10,7 +10,7 @@ class UpdateOperationV1Test {
     private val request = TrnUpdateRequest(
         requestType = "update",
         debug = trnDebugFixture,
-        trn = trnRequestObjectFixture
+        trn = trnWithIdRequestObjectFixture
     )
 
     private val response = TrnUpdateResponse(

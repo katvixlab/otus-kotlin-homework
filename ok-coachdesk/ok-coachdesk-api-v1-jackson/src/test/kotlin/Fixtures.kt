@@ -11,6 +11,7 @@ import ru.otus.kotlin.coachdesk.api.v1.models.TrnResponseObject
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnSearchFilter
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnStatus
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnType
+import ru.otus.kotlin.coachdesk.api.v1.models.TrnWithIdRequestObject
 import java.time.Instant
 import java.util.UUID
 
@@ -18,8 +19,7 @@ val trnIdFixture: UUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000")
 val coachIdFixture: UUID = UUID.fromString("123e4567-e89b-12d3-a456-425515174000")
 
 val idTrnFixture = IdTrn(
-    trnId = trnIdFixture,
-    coachId = coachIdFixture
+    trnId = trnIdFixture
 )
 
 val baseTrnFixture = BaseTrn(
@@ -47,7 +47,19 @@ val trnRequestObjectFixture = TrnRequestObject(
     status = TrnStatus.DONE,
     resultNotes = "result",
     paymentStatus = TrnPaymentStatus.PAID,
+    coachId = coachIdFixture
+)
+
+val trnWithIdRequestObjectFixture = TrnWithIdRequestObject(
     trnId = trnIdFixture,
+    clientFullName = "client",
+    startsAt = Instant.parse("2026-03-30T18:00:00Z").toString(),
+    durationMin = "90",
+    type = TrnType.PERSONAL,
+    planNotes = "plan",
+    status = TrnStatus.DONE,
+    resultNotes = "result",
+    paymentStatus = TrnPaymentStatus.PAID,
     coachId = coachIdFixture
 )
 

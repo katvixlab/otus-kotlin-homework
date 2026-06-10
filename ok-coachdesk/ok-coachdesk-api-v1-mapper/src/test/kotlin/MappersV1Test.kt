@@ -28,6 +28,7 @@ import ru.otus.kotlin.coachdesk.api.v1.models.TrnStatus
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnType
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnUpdateRequest
 import ru.otus.kotlin.coachdesk.api.v1.models.TrnUpdateResponse
+import ru.otus.kotlin.coachdesk.api.v1.models.TrnWithIdRequestObject
 import stubs.DskStubs
 import java.util.UUID
 import kotlin.test.Test
@@ -46,6 +47,18 @@ class MappersV1Test {
     )
 
     private val transportTrn = TrnRequestObject(
+        coachId = coachId,
+        clientFullName = "client",
+        startsAt = startsAt.toString(),
+        durationMin = "90",
+        type = TrnType.PERSONAL,
+        planNotes = "plan",
+        resultNotes = "result",
+        status = TrnStatus.DONE,
+        paymentStatus = TrnPaymentStatus.PAID,
+    )
+
+    private val transportTrnWithId = TrnWithIdRequestObject(
         trnId = trnId,
         coachId = coachId,
         clientFullName = "client",
@@ -93,7 +106,7 @@ class MappersV1Test {
         assertEquals(DskCommand.CREATE, context.command)
         assertEquals(DskWorkMode.TEST, context.workMode)
         assertEquals(DskStubs.SUCCESS, context.stubCase)
-        assertEquals(DskTrnId(trnId).get(), context.trnRequest.trnId.get())
+        assertEquals(DskTrnId.NONE, context.trnRequest.trnId)
         assertEquals(models.DskCoachId(coachId).get(), context.trnRequest.coachId.get())
         assertEquals("client", context.trnRequest.clientFullName)
         assertEquals(startsAt, context.trnRequest.startsAt)
@@ -110,7 +123,7 @@ class MappersV1Test {
         val context = DskContext(
             command = DskCommand.CREATE,
             state = DskState.FINISHED,
-            dskResponse = internalTrn,
+            trnResponse = internalTrn,
             errors = mutableListOf(error),
         )
 
@@ -134,7 +147,7 @@ class MappersV1Test {
             TrnUpdateRequest(
                 requestType = "update",
                 debug = transportDebug,
-                trn = transportTrn,
+                trn = transportTrnWithId,
             )
         )
 
@@ -150,7 +163,7 @@ class MappersV1Test {
         val context = DskContext(
             command = DskCommand.UPDATE,
             state = DskState.FINISHED,
-            dskResponse = internalTrn,
+            trnResponse = internalTrn,
             errors = mutableListOf(error),
         )
 
@@ -173,7 +186,6 @@ class MappersV1Test {
                 debug = transportDebug,
                 trn = IdTrn(
                     trnId = trnId,
-                    coachId = coachId,
                 ),
             )
         )
@@ -182,7 +194,6 @@ class MappersV1Test {
         assertEquals(DskWorkMode.TEST, context.workMode)
         assertEquals(DskStubs.SUCCESS, context.stubCase)
         assertEquals(trnId, context.trnRequest.trnId.get())
-        assertEquals(coachId, context.trnRequest.coachId.get())
     }
 
     @Test
@@ -190,7 +201,7 @@ class MappersV1Test {
         val context = DskContext(
             command = DskCommand.READ,
             state = DskState.FINISHED,
-            dskResponse = internalTrn,
+            trnResponse = internalTrn,
             errors = mutableListOf(error),
         )
 
@@ -230,7 +241,7 @@ class MappersV1Test {
         val context = DskContext(
             command = DskCommand.SEARCH,
             state = DskState.FINISHED,
-            dsksResponse = mutableListOf(internalTrn),
+            trnsResponse = mutableListOf(internalTrn),
             errors = mutableListOf(error),
         )
 
@@ -254,7 +265,6 @@ class MappersV1Test {
                 debug = transportDebug,
                 trn = IdTrn(
                     trnId = trnId,
-                    coachId = coachId,
                 ),
             )
         )
@@ -263,7 +273,6 @@ class MappersV1Test {
         assertEquals(DskWorkMode.TEST, context.workMode)
         assertEquals(DskStubs.SUCCESS, context.stubCase)
         assertEquals(trnId, context.trnRequest.trnId.get())
-        assertEquals(coachId, context.trnRequest.coachId.get())
     }
 
     @Test
@@ -271,7 +280,7 @@ class MappersV1Test {
         val context = DskContext(
             command = DskCommand.DELETE,
             state = DskState.FAILED,
-            dskResponse = DskTrn(trnId = DskTrnId(trnId)),
+            trnResponse = DskTrn(trnId = DskTrnId(trnId)),
             errors = mutableListOf(error),
         )
 

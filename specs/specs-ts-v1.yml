@@ -194,8 +194,11 @@ components:
         - $ref: '#/components/schemas/TrnRequestDebug'
         - type: object
           properties:
+            lock:
+              $ref: '#/components/schemas/TrnLock'
             trn:
-              $ref: '#/components/schemas/TrnRequestObject'
+              $ref: '#/components/schemas/TrnWithIdRequestObject'
+
 
     TrnUpdateResponse:
       allOf:
@@ -212,6 +215,8 @@ components:
         - $ref: '#/components/schemas/TrnRequestDebug'
         - type: object
           properties:
+            lock:
+              $ref: '#/components/schemas/TrnLock'
             trn:
               $ref: '#/components/schemas/IdTrn'
 
@@ -236,7 +241,7 @@ components:
 
     TrnFilter:
       allOf:
-        - $ref: '#/components/schemas/IdTrn'
+        - $ref: '#/components/schemas/IdDskTrn'
         - $ref: '#/components/schemas/TrnSearchFilter'
 
     TrnSearchResponse:
@@ -271,11 +276,19 @@ components:
             trnId:
               type: string
               format: uuid
+            lock:
+              $ref: '#/components/schemas/TrnLock'
         - $ref: '#/components/schemas/BaseTrn'
 
     TrnRequestObject:
       allOf:
+        - $ref: '#/components/schemas/IdDskTrn'
+        - $ref: '#/components/schemas/BaseTrn'
+
+    TrnWithIdRequestObject:
+      allOf:
         - $ref: '#/components/schemas/IdTrn'
+        - $ref: '#/components/schemas/IdDskTrn'
         - $ref: '#/components/schemas/BaseTrn'
 
     BaseTrn:
@@ -314,10 +327,23 @@ components:
           type: string
           format: uuid
           description: Идентификатор тренировки
+    TrnLock:
+      type: string
+      description: Версия оптимистичной блокировки
+
+
+    IdDskTrn:
+      type: object
+      description: Объект описывающий идентификатор тренера и клиента
+      properties:
         coachId:
           type: string
           format: uuid
           description: Идентификатор тренера
+        clientId:
+          type: string
+          format: uuid
+          description: Идентификатор клиента
 
     TrnType:
       type: string

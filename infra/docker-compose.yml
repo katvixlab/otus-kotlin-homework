@@ -1,0 +1,38 @@
+volumes:
+  pg_data:
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_DB=coachdesk
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5556:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d coachdesk -h localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  liquibase:
+    build:
+      context: .
+      dockerfile: liquibase.Dockerfile
+    image: coachdesk-liquibase:5.0.0
+    environment:
+      - LIQUIBASE_COMMAND_URL=jdbc:postgresql://postgres:5432/coachdesk
+      - LIQUIBASE_COMMAND_USERNAME=postgres
+      - LIQUIBASE_COMMAND_PASSWORD=password
+      - LIQUIBASE_COMMAND_CHANGELOG_FILE=db.changelog-master.sql
+      - LIQUIBASE_SEARCH_PATH=/liquibase/changelog
+    volumes:
+      - ../ok-coachdesk/ok-coachdesk-repo-pg/src/main/resources/sql:/liquibase/changelog:ro
+    command: update
+    depends_on:
+      postgres:
+        condition: service_healthy
